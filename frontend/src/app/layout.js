@@ -1,6 +1,6 @@
 // Aqui eu posso colocar todos os componentes que eu quiser que apareça
 // em várias páginas
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/Navbar/Navbar";
 
 export const metadata = {
   title: "Game Shelf",
