@@ -4,35 +4,22 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+// Middleware para interpretar JSON
 app.use(express.json());
 
-// Mock de jogos para testar se a API está funcionando
-const jogos = [
-  {
-    "id": "1",
-    "name": "Fortnite",
-    "box_art_url": "https://static-cdn.jtvnw.net/ttv-boxart/33214-{width}x{height}.jpg",
-    "igdb_id": "1905"
-  },
-  {
-    "id": "2",
-    "name": "Monster Hunter",
-    "box_art_url": "https://static-cdn.jtvnw.net/ttv-boxart/33214-{width}x{height}.jpg",
-    "igdb_id": "1905"
-  },
-  {
-    "id": "3",
-    "name": "Overwatch",
-    "box_art_url": "https://static-cdn.jtvnw.net/ttv-boxart/33214-{width}x{height}.jpg",
-    "igdb_id": "1905"
-  }
-];
+// Importamos o nosso arquivo de rotas de produtos
+const produtoRoutes = require('./routes/produtoRoutes');
 
-// Rota para listar todos os jogos (no caso quero testar se consigo requisitar corretamente os jogos do front para o back)
-app.get('/games', (req,res) => {
-  res.json(jogos);
-})
+// Usamos o roteador na nossa aplicação, definindo um prefixo
+// Todas as rotas em 'produtoRoutes' terão '/api/produtos' antes
+app.use('/api/produtos', produtoRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`)
+// Rota de teste
+app.get('/', (req, res) => {
+  res.send('API de Produtos funcionando!');
+});
+
+// Inicialização do servidor
+app.listen(PORTA, () => {
+  console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
