@@ -5,13 +5,8 @@ querys manualmente.
 E uma única vez, copiar alguns jogos da API para o meu banco, e depois ele ir adicionando conforme as pessoas pesquisam, e 
 daí só precisa monitorar para caso mude alguma informação de alguma dado já populado no banco
 */
-const pgp = require('pg-promise')(/* options */)
-const db = pgp('postgres://username:password@host:port/database')
+import { PrismaClient } from '@prisma/client';
 
-db.one('SELECT $1 AS value', 123)
-  .then((data) => {
-    console.log('DATA:', data.value)
-  })
-  .catch((error) => {
-    console.log('ERROR:', error)
-  })
+const prisma = new PrismaClient();
+
+export default prisma;

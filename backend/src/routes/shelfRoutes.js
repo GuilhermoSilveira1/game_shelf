@@ -1,9 +1,8 @@
-// src/routes/produtoRoutes.js
-const express = require('express');
-const router = express.Router(); // É só no front que o routing é feito sozinho, aqui precisa importar
+import { Router } from 'express';
+import { listarTodosJogos } from '../controllers/gameController.js';
 
-// Importamos o nosso controller
-const shelfController = require('../controllers/shelfController');
+const router = Router();
 
-// Definimos as rotas e associamos às funções do controller
-router.get('/', shelfController.listarTodosJogos);
+router.get('/games', listarTodosJogos);
+
+export default router;
