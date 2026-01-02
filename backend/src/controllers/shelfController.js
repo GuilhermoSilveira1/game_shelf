@@ -3,7 +3,7 @@
 // A shelf é onde o usuário vai colocar os jogos 
 
 // Mock de jogos para testar se a API está funcionando
-import * as gameService from '../services/gameService.js';
+import * as gameService from '../services/shelfService.js';
 
 export async function listarTodosJogos(req, res) {
   try {

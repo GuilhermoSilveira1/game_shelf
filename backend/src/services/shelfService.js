@@ -1,4 +1,4 @@
-import prisma from '../database.js';
+import prisma from '../config/database.js';
 
 export async function listarTodosJogos() {
   return prisma.game.findMany();
