@@ -2,12 +2,11 @@
 // e envia como resposta
 // A shelf é onde o usuário vai colocar os jogos 
 
-// Mock de jogos para testar se a API está funcionando
-import * as gameService from '../services/shelfService.js';
+import * as shelfService from '../services/shelfService.js';
 
 export async function listarTodosJogos(req, res) {
   try {
-    const jogos = await gameService.listarTodosJogos();
+    const jogos = await shelfService.listarTodosJogos();
     res.json(jogos);
   } catch (error) {
     res.status(500).json({ error: 'Erro ao buscar jogos' });
