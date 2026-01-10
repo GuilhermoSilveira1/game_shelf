@@ -1,8 +1,5 @@
-
-// src/routes/games.js
 import express from 'express';
-import { getOrFetchGamesByName, getOrFetchGamesByGenreName } from '../services/gamesService.js';
-import { listAllGamesLocal } from '../repositories/gamesRepo.js';
+import {listAllGames, listGamesByGenre, listGamesByName} from "../controllers/shelfController";
 
 const router = express.Router();
 
@@ -13,12 +10,12 @@ router.get('/search', async (req, res) => {
     const { name, genre } = req.query;
 
     if (!name && !genre) {
-      return res.status(400).json({ message: 'Informe ?name= ou ?genre=' });
+      return res.status(400).json({ message: 'Informe nome ou gênero do jogo' });
     }
 
     const data = name
-      ? await getOrFetchGamesByName(name)
-      : await getOrFetchGamesByGenreName(genre);
+      ? await listGamesByName(name)
+      : await listGamesByGenre(genre);
 
     return res.json({ count: data.length, items: data });
   } catch (err) {
@@ -27,9 +24,9 @@ router.get('/search', async (req, res) => {
   }
 });
 
-// (opcional) GET /games - lista local
+// (opcional) GET /games - lista de todos os jogos
 router.get('/', async (_req, res) => {
-  const data = await listAllGamesLocal();
+  const data = await listAllGames();
   res.json({ count: data.length, items: data });
 });
 

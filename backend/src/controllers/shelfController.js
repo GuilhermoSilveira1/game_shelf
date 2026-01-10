@@ -4,11 +4,38 @@
 
 import * as shelfService from '../services/shelfService.js';
 
-export async function listarTodosJogos(req, res) {
+export async function listAllGames(req, res) {
   try {
-    const jogos = await shelfService.listarTodosJogos();
-    res.json(jogos);
+    const games = shelfService.listAllGamesLocal()
+
+    return res.json(games)    
+  } catch {
+      return res.status()
+  }
+}
+
+export async function listGamesByName(req, res) {
+  try {
+    const name = req.params
+    const games = await shelfService.findGamesByNameLocal(name)
+    if (games.length) {
+      return res.json(games)
+    } else {
+      const games = await shelfService.getOrFetchGamesByName(name)
+      return res.json(games)
+    } 
+    
   } catch (error) {
-    res.status(500).json({ error: 'Erro ao buscar jogos' });
+      return res.status(500).json({ error: 'Erro ao buscar os jogos' });
+  }
+}
+
+export async function listGamesByGenre(req, res) {
+  try {
+    const genre = req.params
+    const games = await shelfService.findGamesByGenreNameLocal(genre)
+    return res.json(games)
+  } catch (error) {
+      return res.status(500).json({ error: 'Erro ao buscar os jogos' });
   }
 }
