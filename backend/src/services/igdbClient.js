@@ -1,4 +1,6 @@
 // src/services/igdbClient.js
+import 'dotenv/config';
+
 const IGDB_BASE = 'https://api.igdb.com/v4';
 const TWITCH_TOKEN_URL = 'https://id.twitch.tv/oauth2/token';
 
@@ -8,7 +10,7 @@ const DEFAULT_SIZE = process.env.IGDB_DEFAULT_IMAGE_SIZE || 'cover_big';
 
 let tokenCache = { token: null, expiresAt: 0 };
 
-class IGDBCredentialsMissingError extends Error {
+export class IGDBCredentialsMissingError extends Error {
   constructor() {
     super('Credenciais da IGDB/Twitch não configuradas.');
     this.name = 'IGDBCredentialsMissingError';
@@ -50,16 +52,31 @@ function buildHeaders(token) {
 }
 
 export async function igdbQuery(endpoint, apicalypseBody) {
-  const token = await getAppAccessToken(); // pode lançar IGDBCredentialsMissingError
-  const res = await fetch(`${IGDB_BASE}/${endpoint}`, {
-    method: 'POST',                // IGDB v4 usa POST
-    headers: buildHeaders(token),  // com Client-ID e Bearer
-    body: apicalypseBody,          // APICalypse query
+  let token = await getAppAccessToken();
+
+  let res = await fetch(`${IGDB_BASE}/${endpoint}`, {
+    method: 'POST',
+    headers: buildHeaders(token),
+    body: apicalypseBody,
   });
+
+  // token inválido → limpa cache e tenta 1x de novo
+  if (res.status === 401) {
+    tokenCache = { token: null, expiresAt: 0 };
+    token = await getAppAccessToken();
+
+    res = await fetch(`${IGDB_BASE}/${endpoint}`, {
+      method: 'POST',
+      headers: buildHeaders(token),
+      body: apicalypseBody,
+    });
+  }
+
   if (!res.ok) {
     const text = await res.text();
     throw new Error(`IGDB error ${res.status}: ${text}`);
   }
+
   return res.json();
 }
 

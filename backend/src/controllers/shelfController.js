@@ -1,41 +1,49 @@
-// Aqui é o equivalente das views do django, é chamado a função que corresponde ao dado que se quer mostrar,
-// e envia como resposta
-// A shelf é onde o usuário vai colocar os jogos 
-
 import * as shelfService from '../services/shelfService.js';
 
+// GET /games
 export async function listAllGames(req, res) {
   try {
-    const games = shelfService.listAllGamesLocal()
-
-    return res.json(games)    
-  } catch {
-      return res.status()
+    const games = await shelfService.listAllGamesLocal();
+    return res.json({
+      count: games.length,
+      items: games,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Erro ao listar jogos' });
   }
 }
 
-export async function listGamesByName(req, res) {
+// GET /games/search?name=Sekiro
+// GET /games/search?genre=Action
+export async function listGamesByNameOrGenre(req, res) {
   try {
-    const name = req.params
-    const games = await shelfService.findGamesByNameLocal(name)
-    if (games.length) {
-      return res.json(games)
+    const { name, genre } = req.query;
+
+    if (!name && !genre) {
+      return res
+        .status(400)
+        .json({ message: 'Informe name ou genre' });
+    }
+
+    let games;
+
+    if (name) {
+      // tenta local → IGDB
+      games = await shelfService.findGamesByNameLocal(name);
+      if (!games.length) {
+        games = await shelfService.getOrFetchGamesByName(name);
+      }
     } else {
-      const games = await shelfService.getOrFetchGamesByName(name)
-      return res.json(games)
-    } 
-    
-  } catch (error) {
-      return res.status(500).json({ error: 'Erro ao buscar os jogos' });
-  }
-}
+      games = await shelfService.findGamesByGenreNameLocal(genre);
+    }
 
-export async function listGamesByGenre(req, res) {
-  try {
-    const genre = req.params
-    const games = await shelfService.findGamesByGenreNameLocal(genre)
-    return res.json(games)
+    return res.json({
+      count: games.length,
+      items: games,
+    });
   } catch (error) {
-      return res.status(500).json({ error: 'Erro ao buscar os jogos' });
+    console.error(error);
+    return res.status(500).json({ error: 'Erro ao buscar jogos' });
   }
 }

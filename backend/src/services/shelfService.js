@@ -1,6 +1,3 @@
-
-// src/services/gamesService.js
-import prisma from '../config/database.js';
 import { igdbQuery, buildCoverUrl } from './igdbClient.js';
 import { IGDBCredentialsMissingError } from './igdbClient.js'; // se exportar a classe
 import prisma from '../config/database.js';
