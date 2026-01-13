@@ -2,33 +2,39 @@ import { igdbQuery, buildCoverUrl } from './igdbClient.js';
 import { IGDBCredentialsMissingError } from './igdbClient.js'; // se exportar a classe
 import prisma from '../config/database.js';
 
-export async function findGamesByNameLocal(name, limit = 20) {
+
+// shelfService.js
+export async function findGamesByNameLocal(name, limit = 20, page = 1) {
+  const skip = (page - 1) * limit;
   return prisma.game.findMany({
     where: { name: { contains: name, mode: 'insensitive' } },
     include: { genres: { include: { genre: true } } },
     orderBy: { name: 'asc' },
     take: limit,
+    skip,
   });
 }
 
-export async function findGamesByGenreNameLocal(genreName, limit = 50) {
+export async function findGamesByGenreNameLocal(genreName, limit = 50, page = 1) {
+  const skip = (page - 1) * limit;
   return prisma.game.findMany({
     where: {
-      genres: {
-        some: { genre: { name: { equals: genreName, mode: 'insensitive' } } },
-      },
+      genres: { some: { genre: { name: { equals: genreName, mode: 'insensitive' } } } },
     },
     include: { genres: { include: { genre: true } } },
     orderBy: { name: 'asc' },
     take: limit,
+    skip,
   });
 }
 
-export async function listAllGamesLocal(limit = 100) {
+export async function listAllGamesLocal(limit = 100, page = 1) {
+  const skip = (page - 1) * limit;
   return prisma.game.findMany({
     include: { genres: { include: { genre: true } } },
     orderBy: { name: 'asc' },
     take: limit,
+    skip,
   });
 }
 
@@ -39,8 +45,10 @@ export async function getOrFetchGamesByName(name) {
 
   // 2) se não tiver, tenta IGDB (search "<name>")
   try {
+    // Com o category = 0 ele puxa apenas o jogo principal
     const query = `
       search "${name}";
+      where category = 0;
       fields id,name,summary,cover.image_id,genres.id,genres.name,genres.slug;
       limit 20;
     `;
