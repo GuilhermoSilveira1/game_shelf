@@ -1,4 +1,4 @@
-import * as userService from '../services/profileService.js';
+import * as userService from '../services/userService.js';
 
 export async function listarUsuarios(req, res) {
   try {
