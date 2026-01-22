@@ -1,44 +1,50 @@
 import * as authService from '../services/authService.js';
+import bcrypt from 'bcryptjs';
 
-/**
- * @route POST auth/register
- * @desc Registers a user
- * @access Public
- */
-export async function Register(req, res) {
-    // get required variables from request body
-    // using es6 object destructing
-    const { username, email, password } = req.body;
-    try {
-        // create an instance of a user
-        const newUser = new User({
-            username,
-            email,
-            password,
-        });
-        // Check if user already exists
-        const existingUser = await User.findOne({ email });
-        if (existingUser)
-            return res.status(400).json({
-                status: "failed",
-                data: [],
-                message: "It seems you already have an account, please log in instead.",
-            });
-        const savedUser = await newUser.save(); // save new user into the database
-        const { role, ...user_data } = savedUser._doc;
-        res.status(200).json({
-            status: "success",
-            data: [user_data],
-            message:
-                "Thank you for registering with us. Your account has been successfully created.",
-        });
-    } catch (err) {
-        res.status(500).json({
-            status: "error",
-            code: 500,
-            data: [],
-            message: "Internal Server Error",
-        });
+export async function registrarUsuario(req, res) {
+  const { username, email, password } = req.body;
+
+  try {
+    // Validações básicas
+    if (!username || !email || !password) {
+      return res.status(400).json({ mensagem: 'username, email e password são obrigatórios.' });
     }
-    res.end();
+
+    const usernameNormalizado = String(username).trim();
+    const emailNormalizado = String(email).trim().toLowerCase();
+
+    // Checar se o usuário ou email já existem
+    const emailExistente = await authService.encontrarEmail(emailNormalizado);
+    if (emailExistente) {
+      return res.status(409).json({ mensagem: 'email já cadastrado' });
+    }
+
+    const usuarioExistente = await authService.encontrarUsername(usernameNormalizado);
+    if (usuarioExistente) {
+      return res.status(409).json({ mensagem: 'username já existente' });
+    }
+
+    // Hash de senha
+    const senhaHash = await bcrypt.hash(password, 10);
+
+    // Salvar novo usuário
+    const usuarioSalvo = await authService.criarUsuario({
+      username: usernameNormalizado,
+      email: emailNormalizado,
+      senhaHash
+    });
+
+    return res.status(201).json(usuarioSalvo);
+  } catch (err) {
+    // Tratamento de erro de unicidade (caso corra uma corrida entre checagem e insert)
+    if (err?.code === 'P2002') {
+      // Prisma unique constraint violation
+      return res.status(409).json({
+        mensagem: `Conflito de unicidade em: ${err?.meta?.target?.join(', ') || 'campo único'}`
+      });
+    }
+
+    console.error('Erro em registrarUsuario:', err);
+    return res.status(500).json({ mensagem: 'Erro interno ao registrar usuário.' });
+  }
 }
