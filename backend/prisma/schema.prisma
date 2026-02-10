@@ -8,14 +8,15 @@ datasource db {
 }
 
 model Game {
-  id        Int         @id            // id da IGDB como PK
-  name      String      @db.VarChar(255)
+  id        Int      @id            // id da IGDB
+  name      String   @db.VarChar(255)
   summary   String?
   coverUrl  String?
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   genres    GameGenre[]
+  shelf     Shelf[]
 
   @@index([name])
 }
@@ -37,9 +38,29 @@ model GameGenre {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String  @unique
-  email     String   @unique
-  passwordHash    String
-  createdAt DateTime @default(now())
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+
+  shelf        Shelf[]
+}
+
+model Shelf {
+  id Int @id @default(autoincrement())
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  gameId Int
+  game   Game @relation(fields: [gameId], references: [id])
+
+  status String
+  description String?
+  plataform String?
+  rating Float?
+  time_played Float?
+
+  @@unique([userId, gameId]) // impede jogo duplicado na shelf
 }
