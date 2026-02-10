@@ -1,26 +1,26 @@
-// Middleware de Verificação de Token
+import jwt from 'jsonwebtoken';
+
 const verifyToken = (req, res, next) => {
-    // 1. Extrai o token do cabeçalho 'Authorization' (Esperado: Bearer <TOKEN>)
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+  // Tenta em Authorization: Bearer <token>
+  const authHeader = req.headers['authorization'];
+  const bearerToken = authHeader && authHeader.split(' ')[0] === 'Bearer' ? authHeader.split(' ')[1] : null;
 
-    if (!token) {
-        return res.status(401).json({ message: 'Acesso negado. Token não fornecido.' });
-    }
+  // Ou tenta em cookie (se você setar cookie httpOnly)
+  const cookieToken = req.cookies?.token;
 
-    try {
-        // 2. Verifica e decodifica o token
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const token = bearerToken || cookieToken;
 
-        // 3. Anexa os dados do usuário à requisição (req.user)
-        req.user = decoded;
+  if (!token) {
+    return res.status(401).json({ message: 'Acesso negado. Token não fornecido.' });
+  }
 
-        // 4. Continua o processamento da requisição
-        next();
-    } catch (err) {
-        // Token inválido (expirado, adulterado, etc.)
-        return res.status(403).json({ message: 'Token inválido ou expirado.' });
-    }
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; // anexar dados do usuário (sub, username, email)
+    next();
+  } catch (err) {
+    return res.status(403).json({ message: 'Token inválido ou expirado.' });
+  }
 };
 
-export { verifyToken };
+export default verifyToken;
