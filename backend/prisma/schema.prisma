@@ -47,6 +47,13 @@ model User {
   shelf        Shelf[]
 }
 
+enum ShelfStatus {
+  WANT_TO_PLAY
+  PLAYING
+  COMPLETED
+  DROPPED
+}
+
 model Shelf {
   id Int @id @default(autoincrement())
 
@@ -56,7 +63,7 @@ model Shelf {
   gameId Int
   game   Game @relation(fields: [gameId], references: [id])
 
-  status String
+  status ShelfStatus
   description String?
   plataform String?
   rating Float?

@@ -37,9 +37,9 @@ export async function addGameToShelf(req, res) {
 // Rota GET para ler todos os jogos adicionados na shelf
 export async function listGamesFromShelf(req, res) {
     // Já validou o id do usuário, então só precisa usar isso para puxar a shelf
-    const user = req.user.id;
+    const userId = req.user.id;
 
-    const listshelf = await shelfService.listGames(user);
+    const listshelf = await shelfService.listGames(userId);
 
     res.status(200).json(listshelf)
 }
@@ -51,6 +51,10 @@ export async function listOneGameFromShelf(req, res) {
     const gameId = Number(req.params.gameId);
 
     const listshelf = await shelfService.listOneGame(userId, gameId);
+
+    if (!listshelf) {
+    return res.status(404).json({ message: 'Jogo não encontrado na shelf' });
+    }
 
     res.status(200).json(listshelf)
 }
@@ -72,7 +76,7 @@ export async function updateGameInShelf(req, res) {
 export async function deleteGameInShelf (req, res) {
     // Pegar o userId e gameId
     const userId = req.user.id;
-    const gameId = req.params.gameId;
+    const gameId = Number(req.params.gameId);
 
     // Envia isso para o service
     await shelfService.deleteGame(userId, gameId)

@@ -31,7 +31,7 @@ export async function realizarLogin(req, res) {
 
     // Gera JWT
     const token = jwt.sign(
-      { sub: user.id, username: user.username, email: user.email },
+      { id: user.id, username: user.username, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
@@ -45,10 +45,17 @@ export async function realizarLogin(req, res) {
       maxAge: 60 * 60 * 1000 // 1h
     });
 
+    // Retornando JWT em json para facilitar testes e integrações simples
     return res.status(200).json({
-      user: { id: user.id, username: user.username, email: user.email, createdAt: user.createdAt }
-      // token é apenas cookie; não devolvemos em JSON para reduzir risco
+      token,
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        createdAt: user.createdAt
+      }
     });
+
   } catch (err) {
     console.error('Erro no login:', err);
     return res.status(500).json({ mensagem: 'Erro interno ao efetuar login.' });

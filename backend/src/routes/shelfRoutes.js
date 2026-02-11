@@ -1,6 +1,6 @@
 import express from 'express';
 import { addGameToShelf, listGamesFromShelf, updateGameInShelf, deleteGameInShelf, listOneGameFromShelf } from '../controllers/shelfController.js';
-import { verifyToken } from '../middleware/verificarJWT.js' 
+import verifyToken from '../middleware/verificarJWT.js' 
 
 const router = express.Router();
 

@@ -35,29 +35,22 @@ export async function listGames(userId) {
   return prisma.shelf.findMany({
     where: { userId },
     include: {
-      gameId: true,
       game: true
     }
   });
 }
 
 // Rota Read - Mostrar um jogo específico do usuário
-export async function listOneGame(gameId) {
-  return prisma.shelf.findOne({
-    where: { 
+export async function listOneGame(userId, gameId) {
+  return prisma.shelf.findUnique({
+    where: {
       userId_gameId: {
         userId,
         gameId
       }
     },
     include: {
-      gameId: true,
-      game: true,
-      status: true,
-      description: true,
-      plataform: true,
-      rating: true,
-      time_palyed: true
+      game: true
     }
   });
 }
@@ -65,18 +58,19 @@ export async function listOneGame(gameId) {
 /* Rota Update - Ajustar algum dado de algum jogo*/
 export async function updateGame(userId, gameId, data) {
   return prisma.shelf.update({
-    where: { game: { equals: game, mode: 'insensitive' },
-    userId_gameId: {
-      userId,
-      gameId
-    }},
-    data: { 
+    where: {
+      userId_gameId: {
+        userId,
+        gameId
+      }
+    },
+    data: {
       status: data.status,
       description: data.description,
       plataform: data.plataform,
       rating: data.rating,
       time_played: data.time_played
-     } 
+    }
   });
 }
 
