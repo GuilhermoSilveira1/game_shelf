@@ -9,7 +9,7 @@ export default function LoginPage() {
 
   async function handleLogin(data) {
     try {
-      const response = await login(data)
+      const response = await login(data) // { identifier, password }
       saveToken(response.token)
       router.push("/shelf")
     } catch {
@@ -17,5 +17,5 @@ export default function LoginPage() {
     }
   }
 
-  return <FormAuth onSubmit={handleLogin} buttonText="Entrar" />
+  return <FormAuth variant="login" onSubmit={handleLogin} buttonText="Entrar" />
 }

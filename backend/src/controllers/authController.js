@@ -64,7 +64,7 @@ export async function realizarLogin(req, res) {
 
 // Função que verifica se o email ou username já existe, e registra um novo usuário
 export async function registrarUsuario(req, res) {
-  const { username, email, password } = req.body;
+  const { email, username, password } = req.body;
 
   try {
     // Validações básicas
