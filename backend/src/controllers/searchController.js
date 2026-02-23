@@ -15,12 +15,11 @@ export async function listAllGames(req, res) {
   }
 }
 
-// GET /games/search?name=Sekiro
-// GET /games/search?genre=Action
+// GET /games/search
 export async function listGamesByNameOrGenre(req, res) {
   try {
     // Normaliza
-    let { name, genre, limit, page } = req.query;
+    let { name, genre, limit, page } = req.body;
     name = typeof name === 'string' ? name.trim() : undefined;
     genre = typeof genre === 'string' ? genre.trim() : undefined;
 

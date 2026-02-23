@@ -6,8 +6,7 @@ import {
 
 const router = express.Router();
 
-// GET /games/search?name=Sekiro
-// GET /games/search?genre=Action
+// GET /games/search
 router.get('/search', listGamesByNameOrGenre);
 
 // GET /games
