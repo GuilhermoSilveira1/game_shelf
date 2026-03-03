@@ -38,28 +38,24 @@ export async function listAllGamesLocal(limit = 100, page = 1) {
   });
 }
 
-export async function getOrFetchGamesByName(name) {
-  // 1) tenta do banco
-  const local = await findGamesByNameLocal(name);
+export async function getOrFetchGamesByName(name, limit = 20, page = 1) {
+  const local = await findGamesByNameLocal(name, limit, page);
   if (local.length) return local;
 
-  // 2) se não tiver, tenta IGDB (search "<name>")
+  console.log("Chamando IGDB para:", name);
   try {
-    // Com o category = 0 ele puxa apenas o jogo principal
     const query = `
       search "${name}";
-      where category = 0;
       fields id,name,summary,cover.image_id,genres.id,genres.name,genres.slug;
       limit 20;
     `;
+
     const igdbGames = await igdbQuery('games', query);
 
-    // 3) persiste normalizado
-    const result = [];
     for (const g of igdbGames) {
       const coverUrl = buildCoverUrl(g.cover?.image_id);
 
-      const game = await prisma.game.upsert({
+      await prisma.game.upsert({
         where: { id: g.id },
         update: { name: g.name, summary: g.summary ?? null, coverUrl },
         create: { id: g.id, name: g.name, summary: g.summary ?? null, coverUrl },
@@ -67,29 +63,26 @@ export async function getOrFetchGamesByName(name) {
 
       if (Array.isArray(g.genres)) {
         for (const gen of g.genres) {
-          const genre = await prisma.genre.upsert({
+          await prisma.genre.upsert({
             where: { id: gen.id },
             update: { name: gen.name, slug: gen.slug ?? null },
             create: { id: gen.id, name: gen.name, slug: gen.slug ?? null },
           });
 
           await prisma.gameGenre.upsert({
-            where: { gameId_genreId: { gameId: game.id, genreId: genre.id } },
+            where: { gameId_genreId: { gameId: g.id, genreId: gen.id } },
             update: {},
-            create: { gameId: game.id, genreId: genre.id },
+            create: { gameId: g.id, genreId: gen.id },
           });
         }
       }
-      result.push(game);
     }
 
-    // 4) retorna já consultando com include (garantir gêneros)
-    return findGamesByNameLocal(name);
+    // 🔥 retorna já paginado corretamente
+    return findGamesByNameLocal(name, limit, page);
+
   } catch (err) {
-    if (err.name === 'IGDBCredentialsMissingError') {
-      console.warn('[IGDB] Credenciais ausentes, retornando apenas dados locais.');
-      return local; // vazio mesmo, por enquanto
-    }
-    throw err;
+    console.error(err);
+    return local;
   }
 }

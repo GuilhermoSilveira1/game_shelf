@@ -1,7 +1,6 @@
 "use client"
 import FormAuth from "@/components/FormAuth"
 import { login } from "@/services/authService"
-import { saveToken } from "@/utils/storage"
 import { useRouter } from "next/navigation"
 
 export default function LoginPage() {
@@ -9,13 +8,18 @@ export default function LoginPage() {
 
   async function handleLogin(data) {
     try {
-      const response = await login(data) // { identifier, password }
-      saveToken(response.token)
+      await login(data)
       router.push("/shelf")
-    } catch {
+    } catch (err) {
       alert("Falha no login")
     }
   }
 
-  return <FormAuth variant="login" onSubmit={handleLogin} buttonText="Entrar" />
+  return (
+    <FormAuth
+      variant="login"
+      onSubmit={handleLogin}
+      buttonText="Entrar"
+    />
+  )
 }

@@ -4,9 +4,7 @@ const API = "http://localhost:5000"
 export async function getShelf(token) {
   const res = await fetch(`${API}/shelf`, {
     method: "GET",
-    headers: {
-      "Authorization": `Bearer ${token}`
-    }
+    credentials: "include"
   })
 
   if (!res.ok) throw new Error("Erro ao obter shelf")
@@ -17,9 +15,7 @@ export async function getShelf(token) {
 export async function getOneFromShelf(gameId, token) {
   const res = await fetch(`${API}/shelf/${gameId}`, {
     method: "GET",
-    headers: {
-      "Authorization": `Bearer ${token}`
-    }
+    credentials: "include"
   })
 
   if (!res.ok) throw new Error("Erro ao obter jogo da shelf")
@@ -30,9 +26,9 @@ export async function getOneFromShelf(gameId, token) {
 export async function addToShelf(data) {
   const res = await fetch(`${API}/shelf`, {
     method: "POST",
+    credentials: "include",
     headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${data.token}`
+      "Content-Type": "application/json"
     },
     body: JSON.stringify({
       gameId: data.gameId,
@@ -44,7 +40,12 @@ export async function addToShelf(data) {
     })
   })
 
-  if (!res.ok) throw new Error("Erro ao adicionar jogo à shelf")
+  if (!res.ok) {
+    const error = await res.text()
+    console.error(error)
+    throw new Error("Erro ao adicionar jogo à shelf")
+  }
+
   return res.json()
 }
 
@@ -52,14 +53,19 @@ export async function addToShelf(data) {
 export async function updateShelf(gameId, data) {
   const res = await fetch(`${API}/shelf/${gameId}`, {
     method: "PATCH",
+    credentials: "include",
     headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${data.token}`
+      "Content-Type": "application/json"
     },
     body: JSON.stringify(data)
   })
 
-  if (!res.ok) throw new Error("Erro ao atualizar jogo da shelf")
+  if (!res.ok) {
+    const error = await res.text()
+    console.error(error)
+    throw new Error("Erro ao atualizar jogo da shelf")
+  }
+
   return res.json()
 }
 
@@ -67,9 +73,7 @@ export async function updateShelf(gameId, data) {
 export async function deleteFromShelf(gameId, token) {
   const res = await fetch(`${API}/shelf/${gameId}`, {
     method: "DELETE",
-    headers: {
-      "Authorization": `Bearer ${token}`
-    }
+    credentials: "include"
   })
 
   if (!res.ok) throw new Error("Erro ao remover jogo da shelf")

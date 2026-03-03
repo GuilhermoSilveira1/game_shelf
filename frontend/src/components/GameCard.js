@@ -1,35 +1,26 @@
-"use client"
 import { useRouter } from "next/navigation"
 
-/**
- * Props
- * - game: { id, name, coverUrl }
- * - shelf?: {
- *     gameId, status, description?, plataform?, rating?, time_played?
- *   }
- * - onAdd?: () => void            // usado na tela de busca
- * - onRemove?: () => void         // opcional: remover da shelf
- * - onEdit?: () => void           // opcional: editar sem navegar
- */
 export default function GameCard({ game, shelf, onAdd, onRemove, onEdit }) {
   const router = useRouter()
 
-  // Derivados para UI
-  const isInShelf = Boolean(shelf)
-  const statusLabel = shelf?.status ?? "Não adicionado"
-  const ratingLabel = shelf?.rating ? `★ ${shelf.rating}` : null
-  const platformLabel = shelf?.plataform || null
+  const isInShelf = !!shelf
 
-  function goToDetails() {
-    // Se vier da shelf, navegar para detalhes da shelf
-    // Se vier da busca, você pode decidir navegar para /game/[id] ou abrir modal
-    router.push(`/shelf/${game.id}`)
+  const statusLabel = shelf?.status ?? null
+  const ratingLabel =
+    typeof shelf?.rating === "number" ? `${shelf.rating}/10` : null
+
+  const platformLabel = shelf?.platform
+    ? `Plataforma: ${shelf.platform}`
+    : null
+
+  function handleCardClick() {
+    router.push(`/games/${game.id}`)
   }
 
   return (
     <div
       className="game-card"
-      onClick={goToDetails}
+      onClick={handleCardClick}
       style={{
         cursor: "pointer",
         border: "1px solid #eee",
@@ -45,10 +36,8 @@ export default function GameCard({ game, shelf, onAdd, onRemove, onEdit }) {
           style={{ width: "100%", borderRadius: 6 }}
         />
 
-        {/* Badge de status (se já estiver na shelf) */}
-        {isInShelf && (
+        {isInShelf && statusLabel && (
           <span
-            className="status-badge"
             style={{
               position: "absolute",
               top: 8,
@@ -57,18 +46,15 @@ export default function GameCard({ game, shelf, onAdd, onRemove, onEdit }) {
               color: "#fff",
               fontSize: 12,
               padding: "2px 6px",
-              borderRadius: 4,
-              opacity: 0.9
+              borderRadius: 4
             }}
           >
             {statusLabel}
           </span>
         )}
 
-        {/* Nota (se houver) */}
         {ratingLabel && (
           <span
-            className="rating-badge"
             style={{
               position: "absolute",
               top: 8,
@@ -85,25 +71,28 @@ export default function GameCard({ game, shelf, onAdd, onRemove, onEdit }) {
         )}
       </div>
 
-      <p style={{ margin: "8px 0 4px", fontWeight: 600 }}>{game.name}</p>
+      <p style={{ margin: "8px 0 4px", fontWeight: 600 }}>
+        {game.name}
+      </p>
 
-      {/* Plataforma e tempo jogado, se vierem */}
       {platformLabel && (
-        <p style={{ margin: 0, fontSize: 12, color: "#666" }}>{platformLabel}</p>
+        <p style={{ fontSize: 12, color: "#666" }}>
+          {platformLabel}
+        </p>
       )}
+
       {typeof shelf?.time_played === "number" && (
-        <p style={{ margin: "2px 0 0", fontSize: 12, color: "#666" }}>
+        <p style={{ fontSize: 12, color: "#666" }}>
           {shelf.time_played} h
         </p>
       )}
 
-      {/* Ações contextuais */}
       <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
         {!isInShelf && onAdd && (
           <button
             type="button"
             onClick={(e) => {
-              e.stopPropagation() // evita disparar o onClick do card
+              e.stopPropagation()
               onAdd()
             }}
           >

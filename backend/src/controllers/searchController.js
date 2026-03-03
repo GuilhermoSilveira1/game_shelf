@@ -19,7 +19,7 @@ export async function listAllGames(req, res) {
 export async function listGamesByNameOrGenre(req, res) {
   try {
     // Normaliza
-    let { name, genre, limit, page } = req.body;
+    let { name, genre, limit, page } = req.query;
     name = typeof name === 'string' ? name.trim() : undefined;
     genre = typeof genre === 'string' ? genre.trim() : undefined;
 
@@ -41,15 +41,11 @@ export async function listGamesByNameOrGenre(req, res) {
     let games;
 
     if (name) {
-      // tenta local
-      games = await searchService.findGamesByNameLocal(name, parsedLimit, parsedPage);
-      if (!games.length) {
-        // busca IGDB, persiste e reconsulta local paginado
-        await searchService.getOrFetchGamesByName(name);
-        games = await searchService.findGamesByNameLocal(name, parsedLimit, parsedPage);
-      }
-    } else {
-      games = await searchService.findGamesByGenreNameLocal(genre, parsedLimit, parsedPage);
+      games = await searchService.getOrFetchGamesByName(
+        name,
+        parsedLimit,
+        parsedPage
+      );
     }
 
     return res.json({

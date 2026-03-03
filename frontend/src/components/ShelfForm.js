@@ -18,28 +18,31 @@ export default function ShelfForm({ data }) {
   async function handleSubmit(e) {
     e.preventDefault()
 
-    if (data?.gameId) {
-      await updateShelf(data.gameId, {
-        token,
-        status,
-        description,
-        plataform,
-        rating,
-        time_played: timePlayed,
-      })
-    } else {
-      await addToShelf({
-        token,
-        gameId: data.id,
-        status,
-        description,
-        plataform,
-        rating,
-        time_played: timePlayed,
-      })
-    }
+    try {
+      if (data?.gameId) {
+        await updateShelf(data.gameId, {
+          status,
+          description,
+          plataform,
+          rating,
+          time_played: timePlayed,
+        })
+      } else {
+        await addToShelf({
+          gameId: data.id,
+          status,
+          description,
+          plataform,
+          rating,
+          time_played: timePlayed,
+        })
+      }
 
-    router.push("/shelf")
+      router.push("/shelf")
+    } catch (err) {
+      console.error(err)
+      alert("Erro ao salvar jogo")
+    }
   }
 
   return (

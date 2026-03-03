@@ -5,18 +5,18 @@ import jwt from 'jsonwebtoken';
 // POST /auth (login)
 export async function realizarLogin(req, res) {
   try {
-    const { email, username, password } = req.body || {};
-    if ((!email && !username) || !password) {
-      return res.status(400).json({ mensagem: 'Forneça email ou username, e password.' });
+    // Recebe o identificador e senha do front
+    const { identifier, password } = req.body || {};
+    // Valida se recebeu as duas informações
+    if (!identifier || !password) {
+      return res.status(400).json({ mensagem: 'Forneça identifier e password.' });
     }
 
-    const emailNorm = email ? String(email).trim().toLowerCase() : null;
-    const usernameNorm = username ? String(username).trim() : null;
+    const isEmail = identifier.includes('@');
 
-    // Busca usuário
-    const user = emailNorm
-      ? await authService.buscarUsuarioPorEmail(emailNorm)
-      : await authService.buscarUsuarioPorUsername(usernameNorm);
+    const user = isEmail
+      ? await authService.buscarUsuarioPorEmail(identifier.toLowerCase())
+      : await authService.buscarUsuarioPorUsername(identifier);
 
     // Mensagem genérica
     if (!user) {
@@ -47,7 +47,6 @@ export async function realizarLogin(req, res) {
 
     // Retornando JWT em json para facilitar testes e integrações simples
     return res.status(200).json({
-      token,
       user: {
         id: user.id,
         username: user.username,
@@ -109,4 +108,9 @@ export async function registrarUsuario(req, res) {
     console.error('Erro em registrarUsuario:', err);
     return res.status(500).json({ mensagem: 'Erro interno ao registrar usuário.' });
   }
+}
+
+export function logout(req, res) {
+  res.clearCookie("token");
+  return res.status(200).json({ message: "Logout realizado" });
 }

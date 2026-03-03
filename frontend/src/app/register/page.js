@@ -10,7 +10,7 @@ export default function RegisterPage() {
     try {
       const response = await register(data) // { email, username, password }
       alert(`Usuário ${response.username} criado com sucesso!`)
-      router.push("/auth")
+      router.push("/login")
     } catch {
       alert("Falha ao criar usuário")
     }
