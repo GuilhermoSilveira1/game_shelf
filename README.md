@@ -1,98 +1,32 @@
-🎮 Game Shelf API
+## 🎮 Game Shelf
 
-Backend da Game Shelf
+O Game Shelf surgiu de uma necessidade pessoal: encontrar uma plataforma simples e completa para registrar os jogos que já joguei. Assim como o Skoob faz muito bem com livros — permitindo marcar leituras em andamento, futuras e finalizadas, além de adicionar notas e datas — eu buscava algo semelhante para o mundo dos videogames.
 
-Permite que usuários:
+## O Problema
+As ferramentas existentes hoje geralmente são limitadas a um único ecossistema.
+Por exemplo:
 
-Criem conta
-Façam login
-Busquem jogos (com integração à Twitch API)
-Organizem seus jogos por status
-Avaliem, adicionem tempo jogado e plataforma
+- Aplicativos que se conectam apenas à conta PlayStation, exibindo apenas jogos jogados no console.
+- Plataformas que sincronizam somente com Steam, mas ignoram jogos de consoles.
+- Soluções que não permitem centralizar jogos de diferentes plataformas em um único lugar.
 
-🚀 Tecnologias Utilizadas
+Isso deixa jogadores que possuem mais de um console ou que alternam entre PC e consoles sem uma visão real da sua biblioteca completa.
 
-Node.js
-Express
-Prisma ORM
-PostgreSQL
-JWT (autenticação)
-bcrypt (hash de senha)
-Twitch API (IGDB)
+## 💡 A Solução
+O Game Shelf foi criado para resolver exatamente isso:
+uma forma única e centralizada de organizar todos os seus jogos — independente de onde você os jogou.
+Com ele, você pode:
 
-🧠 Funcionalidades
+- Registrar jogos de qualquer plataforma
+- Organizar sua lista por status (jogando, quero jogar, concluído, dropado)
+- Adicionar notas, descrição, progresso, tempo jogado e plataforma
+- Visualizar sua biblioteca completa em um único lugar
+- Ou, se preferir, usar apenas para uma plataforma específica
 
-🔐 Autenticação
-Registro com senha criptografada
-Login com geração de JWT
-Rotas protegidas por middleware
+A proposta é oferecer ao usuário uma visão holística e flexível de seu histórico de jogos.
 
-🎮 Integração com Twitch API
-Busca local no banco
-Caso não exista → busca na Twitch
-Salva no banco para evitar requisições repetidas
+📘 Documentação Técnica
+Informações detalhadas sobre o funcionamento da API, autenticação, estrutura do banco e rotas podem ser encontradas nos arquivos:
 
-📚 Shelf
-
-CRUD completo autenticado:
-Adicionar jogo
-Listar jogos
-Buscar jogo específico
-Atualizar informações
-Remover jogo
-
-🏗️ Arquitetura do Projeto
-
-O projeto segue arquitetura em camadas:
-routes → controllers → services → prisma
-
-Separação clara de responsabilidades:
-
-Routes → definem endpoints
-Controllers → lidam com request/response
-Services → regras de negócio
-Prisma → acesso ao banco
-
-⚙️ Como Rodar o Projeto
-1️⃣ Clone o repositório
-git clone https://github.com/GuilhermoSilveira1/game_shelf.git
-cd game_shelf/backend
-
-2️⃣ Instale as dependências:
-npm install
-
-3️⃣ Configure as variáveis de ambiente
-
-Crie um arquivo .env:
-DATABASE_URL="postgresql://user:password@localhost:5432/gameshelf"
-JWT_SECRET="sua_chave_secreta"
-TWITCH_CLIENT_ID="seu_client_id"
-TWITCH_CLIENT_SECRET="seu_client_secret"
-
-4️⃣ Rode as migrations
-npx prisma migrate dev
-npx prisma generate
-
-5️⃣ Inicie o servidor
-npm run dev
-
-Servidor rodando em:
-http://localhost:5000
-
-🔑 Autenticação
-
-As rotas protegidas exigem header, então no Postman ou outra ferramenta, selecionar Authorization: Bearer e colocar o valor gerado do token.
-
-📌 Status possíveis da Shelf
-WANT_TO_PLAY
-PLAYING
-COMPLETED
-DROPPED
-
-🔜 Próximos Passos
-
-Padronização de tratamento de erros
-Paginação
-Filtros por status
-Frontend integrado
-Docker
+- Backend → README.md
+- Frontend → README.md

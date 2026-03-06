@@ -112,5 +112,5 @@ export async function registrarUsuario(req, res) {
 
 export function logout(req, res) {
   res.clearCookie("token");
-  return res.status(200).json({ message: "Logout realizado" });
+  return res.status(200).json({ mensagem: "Logout realizado" });
 }
