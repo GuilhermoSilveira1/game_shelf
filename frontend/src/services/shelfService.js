@@ -1,7 +1,7 @@
 const API = "http://localhost:5000"
 
 // GET /shelf (lista todos os jogos na shelf do usuário)
-export async function getShelf(token) {
+export async function getShelf() {
   const res = await fetch(`${API}/shelf`, {
     method: "GET",
     credentials: "include"
@@ -12,7 +12,7 @@ export async function getShelf(token) {
 }
 
 // GET /shelf/:gameId (pega apenas UM jogo da shelf)
-export async function getOneFromShelf(gameId, token) {
+export async function getOneFromShelf(gameId) {
   const res = await fetch(`${API}/shelf/${gameId}`, {
     method: "GET",
     credentials: "include"
@@ -70,7 +70,7 @@ export async function updateShelf(gameId, data) {
 }
 
 // DELETE /shelf/:gameId (remover jogo)
-export async function deleteFromShelf(gameId, token) {
+export async function deleteFromShelf(gameId) {
   const res = await fetch(`${API}/shelf/${gameId}`, {
     method: "DELETE",
     credentials: "include"

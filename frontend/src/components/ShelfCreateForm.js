@@ -1,12 +1,10 @@
 "use client"
 import { useState } from "react"
-import { updateShelf, addToShelf } from "@/services/shelfService"
+import { addToShelf } from "@/services/shelfService"
 import { useRouter } from "next/navigation"
-import { getToken } from "@/utils/storage"
 
 export default function ShelfForm({ data }) {
   const router = useRouter()
-  const token = getToken()
 
   // Dados da shelf
   const [status, setStatus] = useState(data?.status || "WANT_TO_PLAY")
@@ -19,15 +17,7 @@ export default function ShelfForm({ data }) {
     e.preventDefault()
 
     try {
-      if (data?.gameId) {
-        await updateShelf(data.gameId, {
-          status,
-          description,
-          plataform,
-          rating,
-          time_played: timePlayed,
-        })
-      } else {
+      if (data) {
         await addToShelf({
           gameId: data.id,
           status,
@@ -37,7 +27,6 @@ export default function ShelfForm({ data }) {
           time_played: timePlayed,
         })
       }
-
       router.push("/shelf")
     } catch (err) {
       console.error(err)
@@ -60,11 +49,12 @@ export default function ShelfForm({ data }) {
         onChange={e => setDescription(e.target.value)}
       />
 
-      <input
-        placeholder="Plataforma"
-        value={plataform}
-        onChange={e => setPlataform(e.target.value)}
-      />
+      <select value={plataform} onChange={e => setPlataform(e.target.value)}>
+        <option value="PLAYSTATION">Playstation</option>
+        <option value="NINTENDO">Nintendo</option>
+        <option value="XBOX">Xbox</option>
+        <option value="PC">Pc</option>
+      </select>
 
       <input
         placeholder="Nota (0-10)"
@@ -80,7 +70,7 @@ export default function ShelfForm({ data }) {
         onChange={e => setTimePlayed(e.target.value)}
       />
 
-      <button>Salvar</button>
+      <button>Adicionar</button>
     </form>
   )
 }

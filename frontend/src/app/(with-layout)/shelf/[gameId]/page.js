@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react"
 import { getOneFromShelf } from "@/services/shelfService"
-import ShelfForm from "@/components/ShelfForm"
+import ShelfUpdateForm from "@/components/ShelfUpdateForm"
 import { getToken } from "@/utils/storage"
 import { useParams } from "next/navigation"
 
@@ -21,6 +21,6 @@ export default function ShelfDetailsPage() {
   if (!data) return <p>Carregando...</p>
 
   return (
-    <ShelfForm data={data} />
+    <ShelfUpdateForm data={data} />
   )
 }

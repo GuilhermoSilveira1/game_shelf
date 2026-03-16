@@ -2,10 +2,13 @@
 import { useState } from "react"
 import GameCard from "@/components/GameCard"
 import SearchBar from "@/components/SearchBar"
+import ShelfCreateForm from "@/components/ShelfCreateForm"
 import { search } from "@/services/searchService"
 
 export default function SearchPage() {
   const [results, setResults] = useState([])
+  const [selectedGame, setSelectedGame] = useState(null)
+  const [showForm, setShowForm] = useState(false)
 
   async function handleSearch({ gameName }) {
     try {
@@ -17,7 +20,8 @@ export default function SearchPage() {
   }
 
   function handleAdd(game) {
-    console.log("Adicionar:", game)
+    setSelectedGame(game)
+    setShowForm(true)
   }
 
   return (
@@ -33,6 +37,14 @@ export default function SearchPage() {
           />
         ))}
       </div>
+
+      {showForm && (
+        <ShelfCreateForm
+          game={selectedGame}
+          onClose={() => setShowForm(false)}
+        />
+      )}
+
     </>
   )
 }
