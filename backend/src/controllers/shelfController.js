@@ -6,7 +6,9 @@ export async function addGameToShelf(req, res) {
     // Adicionando o Id do usuário
     const userId = req.user.id;
     const { gameId, status, description, plataform, rating, time_played } = req.body;
-
+    const parsedRating = parseFloat(rating)
+    const parsedTimePlayed = parseFloat(time_played)
+    console.log("Adding game:", req.body)
     // Validando se os dados necessários foram enviados, usuário já foi validado no verifyToken
     if (!gameId || !status) {
     return res.status(400).json({ message: 'Dados faltando na requisição' });
@@ -20,10 +22,11 @@ export async function addGameToShelf(req, res) {
         status,
         description,
         plataform,
-        rating,
-        time_played
+        parsedRating,
+        parsedTimePlayed
         });
 
+        console.log(`Jogo adicionado com sucesso`)
         // Jogo adicionado na shelf, retorna uma mensagem de OK para o front
         return res.status(201).json({ "message": "Jogo adicionado com sucesso!" }) 
     } catch (err) {
@@ -40,6 +43,7 @@ export async function listGamesFromShelf(req, res) {
     const userId = req.user.id;
 
     const listshelf = await shelfService.listGames(userId);
+    console.log(listshelf)
 
     res.status(200).json(listshelf)
 }

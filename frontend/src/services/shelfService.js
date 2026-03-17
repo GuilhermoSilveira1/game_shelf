@@ -7,6 +7,8 @@ export async function getShelf() {
     credentials: "include"
   })
 
+  console.log(res.mensagem)
+
   if (!res.ok) throw new Error("Erro ao obter shelf")
   return res.json()
 }
@@ -40,6 +42,8 @@ export async function addToShelf(data) {
     })
   })
 
+  // Usar um console para ver o que está sendo passado para a shelf
+  console.log(`GameId ${data.gameId}, status ${data.status}, description ${data.description}, plataform ${data.plataform}, rating ${data.rating}, time played ${data.time_played}`)
   if (!res.ok) {
     const error = await res.text()
     console.error(error)

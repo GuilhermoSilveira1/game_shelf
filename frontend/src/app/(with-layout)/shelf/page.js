@@ -12,14 +12,11 @@ export default function ShelfPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [loading, setLoading] = useState(false)
 
-  async function fetchShelf(name = "") {
+  async function fetchShelf() {
     try {
       setLoading(true)
 
-      const params = new URLSearchParams()
-      if (name) params.append("name", name)
-
-      const res = await fetch(`${API}/shelf?${params.toString()}`, {
+      const res = await fetch(`${API}/shelf`, {
         method: "GET",
         credentials: "include"
       })
@@ -27,9 +24,9 @@ export default function ShelfPage() {
       if (!res.ok) throw new Error()
 
       const data = await res.json()
-
+      console.log("Shelf data:", data)
       // assumindo que backend retorna { items: [...] }
-      setGames(data.items || data)
+      setGames(Array.isArray(data) ? data : data.items || [])
     } catch (err) {
       alert("Erro ao carregar shelf")
     } finally {
@@ -39,6 +36,7 @@ export default function ShelfPage() {
 
   async function handleRemove(gameId) {
     try {
+      // Aqui precisa ajustar para a pesquisa com params, que é como o backend recebe
       const res = await fetch(`${API}/shelf/${gameId}`, {
         method: "DELETE",
         credentials: "include"
@@ -55,7 +53,7 @@ export default function ShelfPage() {
 
   function handleSearch(e) {
     e.preventDefault()
-    fetchShelf(searchTerm)
+    fetchShelf()
   }
 
   useEffect(() => {
@@ -65,20 +63,6 @@ export default function ShelfPage() {
   return (
     <div style={{ padding: 24 }}>
       <h1>Minha Shelf</h1>
-
-      {/* Barra de pesquisa */}
-      <form onSubmit={handleSearch} style={{ marginBottom: 20 }}>
-        <input
-          type="text"
-          placeholder="Buscar jogo na shelf..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          style={{ padding: 8, width: 250 }}
-        />
-        <button type="submit" style={{ marginLeft: 8 }}>
-          Buscar
-        </button>
-      </form>
 
       {loading && <p>Carregando...</p>}
 
@@ -93,17 +77,17 @@ export default function ShelfPage() {
           gap: 16
         }}
       >
-        {games.map(game => (
+        {games.map(item => (
           <GameCard
-            key={game.id}
+            key={item.id}
             game={{
-              id: game.id,
-              name: game.name,
-              coverUrl: game.coverUrl
+              id: item.game.id,
+              name: item.game.name,
+              coverUrl: item.game.coverUrl
             }}
-            shelf={game}
-            onClick={() => router.push(`/shelf/${game.id}`)}
-            onRemove={() => handleRemove(game.id)}
+            shelf={item}
+            onClick={() => router.push(`/shelf/${item.id}`)}
+            onRemove={() => handleRemove(item.id)}
           />
         ))}
       </div>

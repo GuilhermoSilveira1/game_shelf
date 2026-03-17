@@ -3,30 +3,29 @@ import { useState } from "react"
 import { addToShelf } from "@/services/shelfService"
 import { useRouter } from "next/navigation"
 
-export default function ShelfForm({ data }) {
+export default function ShelfForm({ game }) {
   const router = useRouter()
 
   // Dados da shelf
-  const [status, setStatus] = useState(data?.status || "WANT_TO_PLAY")
-  const [description, setDescription] = useState(data?.description || "")
-  const [plataform, setPlataform] = useState(data?.plataform || "")
-  const [rating, setRating] = useState(data?.rating || "")
-  const [timePlayed, setTimePlayed] = useState(data?.time_played || "")
+  const [status, setStatus] = useState(game?.status || "WANT_TO_PLAY")
+  const [description, setDescription] = useState(game?.description || "")
+  const [plataform, setPlataform] = useState(game?.plataform || "")
+  const [rating, setRating] = useState(game?.rating || "")
+  const [timePlayed, setTimePlayed] = useState(game?.time_played || "")
 
   async function handleSubmit(e) {
     e.preventDefault()
 
     try {
-      if (data) {
-        await addToShelf({
-          gameId: data.id,
-          status,
-          description,
-          plataform,
-          rating,
-          time_played: timePlayed,
-        })
-      }
+      await addToShelf({
+        gameId: game.id,
+        status,
+        description,
+        plataform,
+        rating,
+        time_played: timePlayed,
+      })
+      
       router.push("/shelf")
     } catch (err) {
       console.error(err)
@@ -70,7 +69,7 @@ export default function ShelfForm({ data }) {
         onChange={e => setTimePlayed(e.target.value)}
       />
 
-      <button>Adicionar</button>
+        <button type="submit" >Adicionar</button>
     </form>
   )
 }
