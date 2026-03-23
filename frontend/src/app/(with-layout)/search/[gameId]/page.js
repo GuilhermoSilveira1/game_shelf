@@ -1,15 +1,15 @@
 "use client"
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
-import { getOneFromShelf } from "@/services/shelfService"
-import ShelfUpdateForm from "@/components/ShelfUpdateForm"
+import ShelfCreateForm from "@/components/ShelfCreateForm"
+import { searchOneGame } from "@/services/searchService"
 
-export default function ShelfDetailsPage() {
+export default function SearchDetailsPage() {
   const { gameId } = useParams()
-    const [selectedGame, setSelectedGame] = useState(null)
+  const [selectedGame, setSelectedGame] = useState(null)
 
   async function load(id) {
-    const response = await getOneFromShelf(id)
+    const response = await searchOneGame(id)
     console.log("Detalhes:", response)
     setSelectedGame(response)
   }
@@ -41,7 +41,7 @@ export default function ShelfDetailsPage() {
     <p>Status: {selectedGame.status}</p>
     <p>Plataforma: {selectedGame.plataform}</p>
 
-    <ShelfUpdateForm game={selectedGame} />
+    <ShelfCreateForm game={selectedGame} />
   </div>
 )
 }

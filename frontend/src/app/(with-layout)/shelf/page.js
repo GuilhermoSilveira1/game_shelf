@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import GameCard from "@/components/GameCard"
+import GameShelfCard from "@/components/GameShelfCard"
 
 const API = "http://localhost:5000"
 
@@ -77,7 +77,7 @@ export default function ShelfPage() {
         }}
       >
         {games.map(item => (
-          <GameCard
+          <GameShelfCard
             key={item.id}
             game={{
               id: item.game.id,

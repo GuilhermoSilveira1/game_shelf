@@ -3,7 +3,6 @@ import { IGDBCredentialsMissingError } from './igdbClient.js'; // se exportar a 
 import prisma from '../config/database.js';
 
 
-// shelfService.js
 export async function findGamesByNameLocal(name, limit = 20, page = 1) {
   const skip = (page - 1) * limit;
   return prisma.game.findMany({
@@ -12,6 +11,15 @@ export async function findGamesByNameLocal(name, limit = 20, page = 1) {
     orderBy: { name: 'asc' },
     take: limit,
     skip,
+  });
+}
+
+// Rota Read - Mostrar um jogo específico 
+export async function listOneGame(gameId) {
+  return prisma.game.findUnique({
+    where: {
+      gameId: gameId
+    }
   });
 }
 

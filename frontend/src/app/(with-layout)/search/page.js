@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react"
-import GameCard from "@/components/GameCard"
+import GameSearchCard from "@/components/GameSearchCard"
 import SearchBar from "@/components/SearchBar"
 import ShelfCreateForm from "@/components/ShelfCreateForm"
 import { search } from "@/services/searchService"
@@ -30,7 +30,7 @@ export default function SearchPage() {
 
       <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
         {results.map(game => (
-          <GameCard
+          <GameSearchCard
             key={game.id}
             game={game}
             onAdd={() => handleAdd(game)}

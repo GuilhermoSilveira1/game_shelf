@@ -15,6 +15,23 @@ export async function listAllGames(req, res) {
   }
 }
 
+// Rota GET para ler 1 jogo específico
+export async function listOneGame(req, res) {
+  const gameId = Number(req.params.gameId);
+
+  try {
+    const game = await searchService.listOneGame(gameId);
+
+    if (!game) {
+      return res.status(404).json({ message: 'Jogo não encontrado' });
+    }
+
+    res.status(200).json(game);
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao buscar jogo' });
+  }
+}
+
 // GET /games/search
 export async function listGamesByNameOrGenre(req, res) {
   try {
