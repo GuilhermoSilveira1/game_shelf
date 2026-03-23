@@ -36,7 +36,6 @@ export default function ShelfPage() {
 
   async function handleRemove(gameId) {
     try {
-      // Aqui precisa ajustar para a pesquisa com params, que é como o backend recebe
       const res = await fetch(`${API}/shelf/${gameId}`, {
         method: "DELETE",
         credentials: "include"

@@ -48,12 +48,11 @@ export default function ShelfForm({ game }) {
         onChange={e => setDescription(e.target.value)}
       />
 
-      <select value={plataform} onChange={e => setPlataform(e.target.value)}>
-        <option value="PLAYSTATION">Playstation</option>
-        <option value="NINTENDO">Nintendo</option>
-        <option value="XBOX">Xbox</option>
-        <option value="PC">Pc</option>
-      </select>
+      <textarea
+        placeholder="Plataforma"
+        value={plataform}
+        onChange={e => setPlataform(e.target.value)}
+      />
 
       <input
         placeholder="Nota (0-10)"

@@ -50,7 +50,7 @@ export async function listGamesFromShelf(req, res) {
 
 // Rota GET para ler 1 jogo específico
 export async function listOneGameFromShelf(req, res) {
-    // Já validou o id do usuário, então só precisa usar isso para puxar a shelf
+    // Com o userId em mãos, só precisa usar o gameId enviado junto para puxar
     const userId = req.user.id
     const gameId = Number(req.params.gameId);
 

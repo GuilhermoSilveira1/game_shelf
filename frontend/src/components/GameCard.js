@@ -2,6 +2,12 @@ import { useRouter } from "next/navigation"
 
 export default function GameCard({ game, shelf, onAdd, onRemove, onEdit }) {
   const router = useRouter()
+  const STATUS_LABELS = {
+    WANT_TO_PLAY: "Quero jogar",
+    PLAYING: "Jogando",
+    COMPLETED: "Finalizado",
+    DROPPED: "Abandonei"
+  }
 
   const isInShelf = !!shelf
 
@@ -13,14 +19,14 @@ export default function GameCard({ game, shelf, onAdd, onRemove, onEdit }) {
     ? `Plataforma: ${shelf.platform}`
     : null
 
-  function handleCardClick() {
-    router.push(`/games/${game.id}`)
-  }
+    function handleClick() {
+      router.push(`/shelf/${game.id}`)
+    }
 
   return (
     <div
       className="game-card"
-      onClick={handleCardClick}
+      onClick={handleClick}
       style={{
         cursor: "pointer",
         border: "1px solid #eee",
@@ -49,7 +55,7 @@ export default function GameCard({ game, shelf, onAdd, onRemove, onEdit }) {
               borderRadius: 4
             }}
           >
-            {statusLabel}
+            {STATUS_LABELS[statusLabel]}
           </span>
         )}
 
