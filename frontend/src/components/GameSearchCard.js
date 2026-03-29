@@ -1,11 +1,11 @@
 import { useRouter } from "next/navigation"
 
-export default function GameCard({ game, onAdd }) {
+export default function GameSearchCard({ game, onAdd }) {
   const router = useRouter()
 
-    function handleClick() {
-      router.push(`/search/${game.id}`)
-    }
+  function handleClick() {
+    router.push(`/search/${game.id}`)
+  }
 
   return (
     <div
@@ -25,15 +25,13 @@ export default function GameCard({ game, onAdd }) {
           alt={game.name}
           style={{ width: "100%", borderRadius: 6 }}
         />
-
       </div>
 
       <p style={{ margin: "8px 0 4px", fontWeight: 600 }}>
         {game.name}
       </p>
 
-        <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
-        {!isInShelf && onAdd && (
+      <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
           <button
             type="button"
             onClick={(e) => {
@@ -43,8 +41,6 @@ export default function GameCard({ game, onAdd }) {
           >
             Adicionar
           </button>
-        )}
-
       </div>
     </div>
   )

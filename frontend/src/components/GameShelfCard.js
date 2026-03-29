@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation"
 
-export default function GameCard({ game, shelf, onAdd, onRemove, onEdit }) {
+export default function GameShelfCard({ game, shelf, onAdd, onRemove, onEdit }) {
   const router = useRouter()
   const STATUS_LABELS = {
     WANT_TO_PLAY: "Quero jogar",

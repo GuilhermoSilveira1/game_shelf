@@ -9,7 +9,6 @@ const API = "http://localhost:5000"
 export default function ShelfPage() {
   const router = useRouter()
   const [games, setGames] = useState([])
-  const [searchTerm, setSearchTerm] = useState("")
   const [loading, setLoading] = useState(false)
 
   async function fetchShelf() {
@@ -48,11 +47,6 @@ export default function ShelfPage() {
     } catch {
       alert("Erro ao remover jogo")
     }
-  }
-
-  function handleSearch(e) {
-    e.preventDefault()
-    fetchShelf()
   }
 
   useEffect(() => {

@@ -16,12 +16,9 @@ export async function search({ gameName }) {
 }
 
 // Procurar apenas 1 jogo
-export async function searchOneGame({ gameId }) {
-  const params = new URLSearchParams({
-    Id: gameId
-  });
-
-  const res = await fetch(`${API}/games/search?${params.toString()}`, {
+export async function searchOneGame(gameId) {
+  console.log(`Jogo sendo enviado ao backend ${gameId} `)
+  const res = await fetch(`${API}/games/search/${gameId}`, {
     method: "GET",
     credentials: "include"
   });
