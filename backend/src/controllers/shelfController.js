@@ -43,7 +43,6 @@ export async function listGamesFromShelf(req, res) {
     const userId = req.user.id;
 
     const listshelf = await shelfService.listGames(userId);
-    console.log(listshelf)
 
     res.status(200).json(listshelf)
 }
@@ -68,8 +67,18 @@ export async function updateGameInShelf(req, res) {
     // Puxando os dados da requisição
     const userId = req.user.id;
     const gameId = Number(req.params.gameId);
-    const data = req.body;
+    const {status, description, plataform, rating, time_played} = req.body;
+    const parsedRating = parseFloat(rating)
+    const parsedTimePlayed = parseFloat(time_played)
+    const data = {
+        "status": status,
+        "description": description,
+        "plataform": plataform,
+        "rating": parsedRating,
+        "time_played": parsedTimePlayed
+    }
 
+    console.log("Adding game:", data)
     await shelfService.updateGame(userId, gameId, data);
 
     // Retornar resposta para o front
