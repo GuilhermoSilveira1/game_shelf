@@ -18,7 +18,7 @@ export async function findGamesByNameLocal(name, limit = 20, page = 1) {
 export async function listOneGame(gameId) {
   return prisma.game.findUnique({
     where: {
-      gameId: gameId
+      id: gameId
     }
   });
 }

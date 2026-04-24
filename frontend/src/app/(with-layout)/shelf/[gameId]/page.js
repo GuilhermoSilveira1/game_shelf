@@ -9,7 +9,7 @@ export default function ShelfDetailsPage() {
   const [selectedGame, setSelectedGame] = useState(null)
   const [showForm, setShowForm] = useState(false)
 
-  function handleEdit(selectedGame) {
+  function handleEdit() {
     setShowForm(true)
   }
 

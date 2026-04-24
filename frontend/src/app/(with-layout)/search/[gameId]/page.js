@@ -7,6 +7,11 @@ import ShelfCreateForm from "@/components/ShelfCreateForm"
 export default function SearchDetailsPage() {
   const { gameId } = useParams()
   const [selectedGame, setSelectedGame] = useState(null)
+  const [showForm, setShowForm] = useState(false)
+  
+  function handleAdd() {
+    setShowForm(true)
+  }
 
   async function load(id) {
     const response = await searchOneGame(id)
@@ -38,7 +43,14 @@ export default function SearchDetailsPage() {
         {selectedGame.summary}
       </p>
 
-      <ShelfCreateForm game={selectedGame} />
+      <button onClick={() => handleAdd()}>Adicionar</button>
+
+      {showForm && (
+        <ShelfCreateForm
+          game={selectedGame}
+          onClose={() => setShowForm(false)}
+        />
+      )}
     </div>
   )
 }
