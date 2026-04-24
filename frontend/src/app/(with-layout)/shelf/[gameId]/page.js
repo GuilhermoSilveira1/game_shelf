@@ -6,7 +6,12 @@ import ShelfUpdateForm from "@/components/ShelfUpdateForm"
 
 export default function ShelfDetailsPage() {
   const { gameId } = useParams()
-    const [selectedGame, setSelectedGame] = useState(null)
+  const [selectedGame, setSelectedGame] = useState(null)
+  const [showForm, setShowForm] = useState(false)
+
+  function handleEdit(selectedGame) {
+    setShowForm(true)
+  }
 
   async function load(id) {
     const response = await getOneFromShelf(id)
@@ -27,6 +32,7 @@ export default function ShelfDetailsPage() {
     <h1 className="text-2xl font-bold">
       {selectedGame.game.name}
     </h1>
+    <p>Status: {selectedGame.status}</p>
 
     <img
       src={selectedGame.game.coverUrl}
@@ -38,10 +44,14 @@ export default function ShelfDetailsPage() {
       {selectedGame.game.summary}
     </p>
 
-    <p>Status: {selectedGame.status}</p>
-    <p>Plataforma: {selectedGame.plataform}</p>
+    <button onClick={() => handleEdit(selectedGame)}>Editar</button>
 
-    <ShelfUpdateForm game={selectedGame} />
+    {showForm && (
+      <ShelfUpdateForm
+        game={selectedGame}
+        onClose={() => setShowForm(false)}
+      />
+      )}
   </div>
 )
 }
