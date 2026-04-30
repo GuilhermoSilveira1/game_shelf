@@ -10,7 +10,16 @@ export default function ShelfDetailsPage() {
   const [showForm, setShowForm] = useState(false)
 
   function handleEdit() {
-    setShowForm(true)
+    if (showForm == false) {
+      setShowForm(true)
+    }
+    if (showForm == true) {
+      setShowForm(false)
+    }
+  }
+
+  function handleRemove() {
+
   }
 
   async function load(id) {
@@ -32,7 +41,6 @@ export default function ShelfDetailsPage() {
     <h1 className="text-2xl font-bold">
       {selectedGame.game.name}
     </h1>
-    <p>Status: {selectedGame.status}</p>
 
     <img
       src={selectedGame.game.coverUrl}
@@ -45,6 +53,7 @@ export default function ShelfDetailsPage() {
     </p>
 
     <button onClick={() => handleEdit(selectedGame)}>Editar</button>
+    <button onClick={() => handleRemove(selectedGame)}>Remover jogo</button>
 
     {showForm && (
       <ShelfUpdateForm

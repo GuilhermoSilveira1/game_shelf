@@ -8,8 +8,6 @@ import { useRouter } from "next/navigation"
 
 export default function SearchPage() {
   const [results, setResults] = useState([])
-  const [selectedGame, setSelectedGame] = useState(null)
-  const [showForm, setShowForm] = useState(false)
   const router = useRouter()
 
   async function handleSearch({ gameName }) {
@@ -19,11 +17,6 @@ export default function SearchPage() {
     } catch {
       alert("Falha na pesquisa")
     }
-  }
-
-  function handleAdd(game) {
-    setSelectedGame(game)
-    setShowForm(true)
   }
 
   return (
@@ -40,13 +33,6 @@ export default function SearchPage() {
           />
         ))}
       </div>
-
-      {showForm && (
-        <ShelfCreateForm
-          game={selectedGame}
-          onClose={() => setShowForm(false)}
-        />
-      )}
 
     </>
   )

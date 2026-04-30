@@ -10,7 +10,12 @@ export default function SearchDetailsPage() {
   const [showForm, setShowForm] = useState(false)
   
   function handleAdd() {
-    setShowForm(true)
+    if (showForm == false) {
+      setShowForm(true)
+    }
+    if (showForm == true) {
+      setShowForm(false)
+    }
   }
 
   async function load(id) {

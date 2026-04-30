@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation"
 
-export default function GameSearchCard({ game, onAdd }) {
+export default function GameSearchCard({ game }) {
   const router = useRouter()
 
   function handleClick() {
@@ -31,17 +31,6 @@ export default function GameSearchCard({ game, onAdd }) {
         {game.name}
       </p>
 
-      <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation()
-              onAdd()
-            }}
-          >
-            Adicionar
-          </button>
-      </div>
     </div>
   )
 }

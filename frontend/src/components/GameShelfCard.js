@@ -89,46 +89,12 @@ export default function GameShelfCard({ game, shelf, onAdd, onRemove, onEdit }) 
 
       {typeof shelf?.time_played === "number" && (
         <p style={{ fontSize: 12, color: "#666" }}>
-          {shelf.time_played} h
+          Tempo de jogo: {shelf.time_played} h
         </p>
       )}
 
       <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
-        {!isInShelf && onAdd && (
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation()
-              onAdd()
-            }}
-          >
-            Adicionar
-          </button>
-        )}
 
-        {isInShelf && onEdit && (
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation()
-              onEdit()
-            }}
-          >
-            Editar
-          </button>
-        )}
-
-        {isInShelf && onRemove && (
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation()
-              onRemove()
-            }}
-          >
-            Remover
-          </button>
-        )}
       </div>
     </div>
   )
