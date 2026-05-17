@@ -1,10 +1,13 @@
 "use client"
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
-import { getOneFromShelf } from "@/services/shelfService"
+import { deleteFromShelf, getOneFromShelf } from "@/services/shelfService"
 import ShelfUpdateForm from "@/components/ShelfUpdateForm"
+import { useRouter } from "next/navigation"
 
 export default function ShelfDetailsPage() {
+  const router = useRouter()
+
   const { gameId } = useParams()
   const [selectedGame, setSelectedGame] = useState(null)
   const [showForm, setShowForm] = useState(false)
@@ -18,8 +21,16 @@ export default function ShelfDetailsPage() {
     }
   }
 
-  function handleRemove() {
-
+  async function handleRemove(gameId) {
+    try {
+      await deleteFromShelf(gameId)
+      
+      router.push("/shelf")
+    } 
+    catch (err) {
+        console.error(err)
+        alert("Erro ao remover jogo")
+    }
   }
 
   async function load(id) {
@@ -53,7 +64,7 @@ export default function ShelfDetailsPage() {
     </p>
 
     <button onClick={() => handleEdit(selectedGame)}>Editar</button>
-    <button onClick={() => handleRemove(selectedGame)}>Remover jogo</button>
+    <button onClick={() => handleRemove(selectedGame.game.id)}>Remover jogo</button>
 
     {showForm && (
       <ShelfUpdateForm
