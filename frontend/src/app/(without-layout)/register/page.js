@@ -26,131 +26,135 @@ export default function RegisterPage() {
   }
 
   return (
-    <div
-      className="
-        min-h-screen
-        bg-[#c8c5dd]
-        flex
-        items-center
-        justify-center
-        p-6
-        overflow-hidden
-      "
-    >
-
-      {/* Decorações */}
-      <div
-        className="
-          absolute
-          top-12
-          right-12
-          w-32
-          h-32
-          bg-[#58d0e0]
-          border-4
-          border-[#3b2a1f]
-          rotate-12
-        "
-      />
-
-      <div
-        className="
-          absolute
-          bottom-10
-          left-10
-          w-40
-          h-40
-          bg-[#f4ef45]
-          border-4
-          border-[#3b2a1f]
-          -rotate-12
-        "
-      />
-
-      {/* Conteúdo */}
-      <div
-        className="
-          relative
-          z-10
-          flex
-          flex-col
-          items-center
-          gap-8
-          w-full
-        "
-      >
-
-        {/* Logo */}
+    <html>
+      <body>
         <div
           className="
-            bg-[#5a54f2]
-            border-4
-            border-[#3b2a1f]
-            shadow-[10px_10px_0px_#3b2a1f]
-            px-10
-            py-8
-            text-center
+            min-h-screen
+            bg-[#c8c5dd]
+            flex
+            items-center
+            justify-center
+            p-6
+            overflow-hidden
           "
         >
-          <h1
-            className="
-              text-6xl
-              md:text-7xl
-              font-black
-              uppercase
-              text-white
-              leading-none
-            "
-          >
-            🎮 GAME
-            <br />
-            SHELF
-          </h1>
 
-          <p
+          {/* Decorações */}
+          <div
             className="
-              mt-4
-              text-white
-              font-bold
-              text-lg
-              uppercase
+              absolute
+              top-12
+              right-12
+              w-32
+              h-32
+              bg-[#58d0e0]
+              border-4
+              border-[#3b2a1f]
+              rotate-12
+            "
+          />
+
+          <div
+            className="
+              absolute
+              bottom-10
+              left-10
+              w-40
+              h-40
+              bg-[#f4ef45]
+              border-4
+              border-[#3b2a1f]
+              -rotate-12
+            "
+          />
+
+          {/* Conteúdo */}
+          <div
+            className="
+              relative
+              z-10
+              flex
+              flex-col
+              items-center
+              gap-8
+              w-full
             "
           >
-            New Player Registration
-          </p>
+
+            {/* Logo */}
+            <div
+              className="
+                bg-[#5a54f2]
+                border-4
+                border-[#3b2a1f]
+                shadow-[10px_10px_0px_#3b2a1f]
+                px-10
+                py-8
+                text-center
+              "
+            >
+              <h1
+                className="
+                  text-6xl
+                  md:text-7xl
+                  font-black
+                  uppercase
+                  text-white
+                  leading-none
+                "
+              >
+                🎮 GAME
+                <br />
+                SHELF
+              </h1>
+
+              <p
+                className="
+                  mt-4
+                  text-white
+                  font-bold
+                  text-lg
+                  uppercase
+                "
+              >
+                New Player Registration
+              </p>
+            </div>
+
+            {/* Form */}
+            <FormAuth
+              variant="register"
+              onSubmit={handleRegister}
+              buttonText="Criar conta"
+            />
+
+            {/* Rodapé estilizado */}
+            <div
+              className="
+                bg-[#58d0e0]
+                border-4
+                border-[#3b2a1f]
+                shadow-[6px_6px_0px_#3b2a1f]
+                px-6
+                py-3
+                text-center
+              "
+            >
+              <p
+                className="
+                  text-[#3b2a1f]
+                  font-black
+                  uppercase
+                "
+              >
+                Comece sua coleção gamer ✨
+              </p>
+            </div>
+
+          </div>
         </div>
-
-        {/* Form */}
-        <FormAuth
-          variant="register"
-          onSubmit={handleRegister}
-          buttonText="Criar conta"
-        />
-
-        {/* Rodapé estilizado */}
-        <div
-          className="
-            bg-[#58d0e0]
-            border-4
-            border-[#3b2a1f]
-            shadow-[6px_6px_0px_#3b2a1f]
-            px-6
-            py-3
-            text-center
-          "
-        >
-          <p
-            className="
-              text-[#3b2a1f]
-              font-black
-              uppercase
-            "
-          >
-            Comece sua coleção gamer ✨
-          </p>
-        </div>
-
-      </div>
-    </div>
+      </body>
+    </html>
   )
 }
