@@ -14,136 +14,39 @@ export default function RootLayout({ children }) {
         <div className="flex h-screen p-6 gap-6">
 
           {/* Sidebar */}
-          <aside
-            className="
-              w-72
-              bg-[#58d0e0]
-              border-4
-              border-[#3b2a1f]
-              shadow-[10px_10px_0px_#3b2a1f]
-              flex
-              flex-col
-              p-6
-            "
-          >
+          <aside className="w-48 min-h-screen bg-[#c0c0c0] border-r-2 border-black flex flex-col justify-between p-3">
+            
+            <div>
+              {/* Logo */}
+              <div className="mb-6">
+                <h2 className="text-lg font-bold">🎮 Game Shelf</h2>
+                <p className="text-xs text-gray-700">Sua coleção gamer retrô</p>
+              </div>
 
-            {/* Logo */}
-            <div
-              className="
-                bg-[#f57edb]
-                border-4
-                border-[#3b2a1f]
-                p-4
-                mb-8
-                shadow-[6px_6px_0px_#3b2a1f]
-              "
-            >
-              <h1
-                className="
-                  text-3xl
-                  font-black
-                  text-[#3b2a1f]
-                  uppercase
-                  tracking-wide
-                "
-              >
-                🎮 Game Shelf
-              </h1>
+              {/* Navegação */}
+              <nav className="flex flex-col gap-2">
+                <Link href="/search">
+                  <button className="w-full text-left px-2 py-1 border border-black bg-[#e5e5e5] hover:bg-[#d4d4d4]">
+                    🔎 Pesquisar
+                  </button>
+                </Link>
 
-              <p className="text-[#3b2a1f] font-bold mt-2 text-sm">
-                Sua coleção gamer retrô
-              </p>
+                <Link href="/shelf">
+                  <button className="w-full text-left px-2 py-1 border border-black bg-[#e5e5e5] hover:bg-[#d4d4d4]">
+                    📚 Prateleira
+                  </button>
+                </Link>
+
+                <button className="w-full text-left px-2 py-1 border border-black bg-[#e5e5e5] hover:bg-[#d4d4d4]">
+                  🚪 Logout
+                </button>
+              </nav>
             </div>
 
-            {/* Navegação */}
-            <nav className="flex flex-col gap-4">
-
-              <Link
-                href="/search"
-                className="
-                  bg-[#f4ef45]
-                  border-4
-                  border-[#3b2a1f]
-                  text-[#3b2a1f]
-                  font-black
-                  uppercase
-                  px-4
-                  py-3
-                  shadow-[6px_6px_0px_#3b2a1f]
-                  transition-all
-                  duration-150
-                  hover:translate-x-[3px]
-                  hover:translate-y-[3px]
-                  hover:shadow-[3px_3px_0px_#3b2a1f]
-                "
-              >
-                🔎 Pesquisar
-              </Link>
-
-              <Link
-                href="/shelf"
-                className="
-                  bg-[#5a54f2]
-                  border-4
-                  border-[#3b2a1f]
-                  text-white
-                  font-black
-                  uppercase
-                  px-4
-                  py-3
-                  shadow-[6px_6px_0px_#3b2a1f]
-                  transition-all
-                  duration-150
-                  hover:translate-x-[3px]
-                  hover:translate-y-[3px]
-                  hover:shadow-[3px_3px_0px_#3b2a1f]
-                "
-              >
-                📚 Prateleira
-              </Link>
-
-              <Link
-                href="/logout"
-                className="
-                  mt-10
-                  bg-[#ff6464]
-                  border-4
-                  border-[#3b2a1f]
-                  text-white
-                  font-black
-                  uppercase
-                  px-4
-                  py-3
-                  shadow-[6px_6px_0px_#3b2a1f]
-                  transition-all
-                  duration-150
-                  hover:translate-x-[3px]
-                  hover:translate-y-[3px]
-                  hover:shadow-[3px_3px_0px_#3b2a1f]
-                "
-              >
-                🚪 Logout
-              </Link>
-
-            </nav>
-
-            {/* Footer retrô */}
-            <div
-              className="
-                mt-auto
-                bg-[#f57edb]
-                border-4
-                border-[#3b2a1f]
-                p-3
-                text-[#3b2a1f]
-                font-black
-                text-center
-                shadow-[6px_6px_0px_#3b2a1f]
-              "
-            >
+            {/* Footer */}
+            <div className="text-xs text-center mt-6 border-t border-black pt-2">
               LEVEL UP!
             </div>
-
           </aside>
 
           {/* Conteúdo principal */}

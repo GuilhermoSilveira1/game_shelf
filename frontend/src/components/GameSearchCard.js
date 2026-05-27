@@ -9,75 +9,35 @@ export default function GameSearchCard({ game }) {
 
   return (
     <div
-  className="
-    cursor-pointer
-    bg-[#ff77d9]
-    border-4
-    border-[#3b2a1f]
-    shadow-[8px_8px_0px_#3b2a1f]
-    transition-all
-    duration-150
-    hover:translate-x-[4px]
-    hover:translate-y-[4px]
-    hover:shadow-[4px_4px_0px_#3b2a1f]
-    overflow-hidden
-    w-[220px]
-  "
-  onClick={handleClick}
->
-
-  {/* Barra estilo janela retrô */}
-  <div
-      className="
-        bg-[#f4ef45]
-        border-b-4
-        border-[#3b2a1f]
-        px-3
-        py-2
-        flex
-        items-center
-        gap-2
-      "
+      onClick={handleClick}
+      className="cursor-pointer border-2 border-black bg-[#e5e5e5] hover:bg-[#d4d4d4] transition-all shadow-[4px_4px_0px_black]"
     >
-      <div className="w-4 h-4 bg-[#58d0e0] border-2 border-[#3b2a1f]" />
-      <div className="w-4 h-4 bg-[#ff6464] border-2 border-[#3b2a1f]" />
-      <div className="w-4 h-4 bg-[#5a54f2] border-2 border-[#3b2a1f]" />
-    </div>
-
-    {/* Imagem */}
-    <div className="p-3">
-      <div
-        className="
-          border-4
-          border-[#3b2a1f]
-          overflow-hidden
-          bg-[#58d0e0]
-        "
-      >
-        <img
-          src={game.coverUrl}
-          alt={game.name}
-          className="
-            w-full
-            h-[280px]
-            object-cover
-          "
-        />
+      {/* Header retrô */}
+      <div className="bg-[#000080] text-white text-xs px-2 py-1 font-bold flex justify-between items-center">
+        <span>Game Search</span>
+        <span>🗖 🗙</span>
       </div>
 
-      {/* Nome */}
-      <p
-        className="
-          mt-4
-          text-[#3b2a1f]
-          font-black
-          text-lg
-          leading-tight
-        "
-      >
-        {game.name}
-      </p>
+      {/* Conteúdo */}
+      <div className="p-3 flex gap-3">
+        {/* Capa */}
+        <img
+          src={game.cover}
+          alt={game.name}
+          className="w-16 h-20 object-cover border border-black"
+        />
+
+        <div className="flex flex-col justify-between">
+          {/* Nome */}
+          <h3 className="font-bold text-sm">{game.name}</h3>
+
+          {/* Placeholder pra infos futuras */}
+          <div className="text-xs text-gray-700">
+            {game.releaseDate && <p>📅 {game.releaseDate}</p>}
+            {game.genre && <p>🎮 {game.genre}</p>}
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
   )
 }
