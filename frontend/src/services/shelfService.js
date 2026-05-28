@@ -1,4 +1,4 @@
-const API = "http://localhost:5000"
+const API = process.env.NEXT_PUBLIC_API_URL
 
 // GET /shelf (lista todos os jogos na shelf do usuário)
 export async function getShelf() {

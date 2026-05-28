@@ -9,7 +9,7 @@ export default async function hasCookie() {
   }
 }
 
-export async function deleteCookie(data) {
+export async function deleteCookie() {
   const cookieStore = await cookies()
   cookieStore.delete('name')
 }
