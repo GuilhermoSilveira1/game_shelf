@@ -37,11 +37,10 @@ export async function realizarLogin(req, res) {
     );
 
     // --- setar cookie httpOnly ---
-    const isProd = process.env.NODE_ENV === 'production';
     res.cookie('token', token, {
       httpOnly: true,
-      secure: isProd,        // true em produção (HTTPS)
-      sameSite: 'lax',       // ajuste para 'strict' se quiser mais proteção
+      secure: true,        // true em produção (HTTPS)
+      sameSite: 'none',       // ajuste para 'strict' se quiser mais proteção
       maxAge: 60 * 60 * 1000 // 1h
     });
 

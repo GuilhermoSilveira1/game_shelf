@@ -10,7 +10,7 @@ const app = express();
 app.use(cookieParser());
 
 app.use(cors({
-  origin: "http://localhost:3000", // URL do frontend
+  origin: "https://gameshelf-one.vercel.app/", // URL do frontend
   credentials: true
 }));
 
