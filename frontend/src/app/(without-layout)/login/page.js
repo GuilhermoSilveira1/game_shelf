@@ -95,7 +95,7 @@ export default function LoginPage() {
                   leading-none
                 "
               >
-                🎮 GAME
+                GAME
                 <br />
                 SHELF
               </h1>

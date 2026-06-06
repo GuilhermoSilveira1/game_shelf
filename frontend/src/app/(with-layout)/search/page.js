@@ -43,7 +43,7 @@ export default function SearchPage() {
               tracking-wider
             "
           >
-            🎮 Game Shelf
+            Game Shelf
           </h1>
 
           <p className="text-[#3b2a1f] mt-2 font-bold">

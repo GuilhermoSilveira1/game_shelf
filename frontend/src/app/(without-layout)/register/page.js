@@ -26,7 +26,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <html>
+   <html>
       <body>
         <div
           className="
@@ -39,13 +39,12 @@ export default function RegisterPage() {
             overflow-hidden
           "
         >
-
-          {/* Decorações */}
+          {/* Decorações de fundo */}
           <div
             className="
               absolute
-              top-12
-              right-12
+              top-10
+              left-10
               w-32
               h-32
               bg-[#58d0e0]
@@ -58,8 +57,8 @@ export default function RegisterPage() {
           <div
             className="
               absolute
-              bottom-10
-              left-10
+              bottom-16
+              right-16
               w-40
               h-40
               bg-[#f4ef45]
@@ -81,7 +80,6 @@ export default function RegisterPage() {
               w-full
             "
           >
-
             {/* Logo */}
             <div
               className="
@@ -104,7 +102,7 @@ export default function RegisterPage() {
                   leading-none
                 "
               >
-                🎮 GAME
+                GAME
                 <br />
                 SHELF
               </h1>
@@ -122,14 +120,14 @@ export default function RegisterPage() {
               </p>
             </div>
 
-            {/* Form */}
+            {/* Formulário */}
             <FormAuth
               variant="register"
               onSubmit={handleRegister}
-              buttonText="Criar conta"
+              buttonText="Criar Conta"
             />
 
-            {/* Rodapé estilizado */}
+            {/* Texto extra */}
             <div
               className="
                 bg-[#58d0e0]
@@ -138,7 +136,6 @@ export default function RegisterPage() {
                 shadow-[6px_6px_0px_#3b2a1f]
                 px-6
                 py-3
-                text-center
               "
             >
               <p
@@ -146,15 +143,15 @@ export default function RegisterPage() {
                   text-[#3b2a1f]
                   font-black
                   uppercase
+                  text-center
                 "
               >
                 Comece sua coleção gamer ✨
               </p>
             </div>
-
           </div>
         </div>
       </body>
-    </html>
+    </html> 
   )
 }

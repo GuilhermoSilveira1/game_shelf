@@ -80,7 +80,7 @@ export default function HomePage() {
                     leading-none
                   "
                 >
-                  🎮 GAME
+                  GAME
                   <br />
                   SHELF
                 </h1>
@@ -109,7 +109,7 @@ export default function HomePage() {
                     leading-snug
                   "
                 >
-                  Seu organizador de jogos retrô 🎮
+                  Seu organizador de jogos
                 </p>
 
                 <p
