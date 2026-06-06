@@ -80,8 +80,8 @@ export default function FormAuth({ onSubmit, buttonText, variant = "login" }) {
             "
           >
             {variant === "login"
-              ? "🎮 Entrar"
-              : "✨ Criar Conta"}
+              ? "Entrar"
+              : "Criar Conta"}
           </h1>
         </div>
 

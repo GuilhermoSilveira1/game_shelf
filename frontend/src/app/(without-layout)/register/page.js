@@ -1,8 +1,8 @@
 "use client"
-
 import FormAuth from "@/components/FormAuth"
 import { register } from "@/services/authService"
 import { useRouter } from "next/navigation"
+import "../../globals.css";
 
 export default function RegisterPage() {
 
@@ -146,7 +146,7 @@ export default function RegisterPage() {
                   text-center
                 "
               >
-                Comece sua coleção gamer ✨
+                Comece sua coleção gamer
               </p>
             </div>
           </div>
