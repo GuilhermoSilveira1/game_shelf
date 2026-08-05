@@ -1,5 +1,7 @@
 import app from './app.js';
 
+// Olhar a importação do arquivo .env
+
 const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
