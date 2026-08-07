@@ -1,36 +1,63 @@
-const API = process.env.NEXT_PUBLIC_API_URL
+import { BACKEND_API } from "@/config/api";
 
-// GET /shelf (lista todos os jogos na shelf do usuário)
+async function readResponse(res) {
+  const contentType = res.headers.get("content-type");
+
+  if (contentType?.includes("application/json")) {
+    return res.json();
+  }
+
+  return null;
+}
+
+async function throwResponseError(res, fallbackMessage) {
+  const errorData = await readResponse(res);
+
+  throw new Error(
+    errorData?.mensagem ||
+      errorData?.message ||
+      fallbackMessage
+  );
+}
+
 export async function getShelf() {
-  const res = await fetch(`${API}/shelf`, {
+  const res = await fetch(`${BACKEND_API}/shelf`, {
     method: "GET",
-    credentials: "include"
-  })
+    credentials: "include",
+  });
 
-  console.log(res.mensagem)
+  if (!res.ok) {
+    await throwResponseError(res, "Erro ao obter shelf");
+  }
 
-  if (!res.ok) throw new Error("Erro ao obter shelf")
-  return res.json()
+  return readResponse(res);
 }
 
-// GET /shelf/:gameId (pega apenas UM jogo da shelf)
 export async function getOneFromShelf(gameId) {
-  const res = await fetch(`${API}/shelf/${gameId}`, {
-    method: "GET",
-    credentials: "include"
-  })
+  const res = await fetch(
+    `${BACKEND_API}/shelf/${encodeURIComponent(gameId)}`,
+    {
+      method: "GET",
+      credentials: "include",
+    }
+  );
 
-  if (!res.ok) throw new Error("Erro ao obter jogo da shelf")
-  return res.json()
+  if (!res.ok) {
+    await throwResponseError(
+      res,
+      "Erro ao obter jogo da shelf"
+    );
+  }
+
+  return readResponse(res);
 }
 
-// POST /shelf (adicionar jogo novo à shelf)
 export async function addToShelf(data) {
-  const res = await fetch(`${API}/shelf`, {
+  const res = await fetch(`${BACKEND_API}/shelf`, {
     method: "POST",
     credentials: "include",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       gameId: data.gameId,
@@ -38,48 +65,58 @@ export async function addToShelf(data) {
       description: data.description,
       plataform: data.plataform,
       rating: data.rating,
-      time_played: data.time_played
-    })
-  })
+      time_played: data.time_played,
+    }),
+  });
 
-  // Usar um console para ver o que está sendo passado para a shelf
-  console.log(`GameId ${data.gameId}, status ${data.status}, description ${data.description}, plataform ${data.plataform}, rating ${data.rating}, time played ${data.time_played}`)
   if (!res.ok) {
-    const error = await res.text()
-    console.error(error)
-    throw new Error("Erro ao adicionar jogo à shelf")
+    await throwResponseError(
+      res,
+      "Erro ao adicionar jogo à shelf"
+    );
   }
 
-  return res.json()
+  return readResponse(res);
 }
 
-// PATCH /shelf/:gameId (atualizar informações)
 export async function updateShelf(gameId, data) {
-  const res = await fetch(`${API}/shelf/${gameId}`, {
-    method: "PATCH",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
-  })
+  const res = await fetch(
+    `${BACKEND_API}/shelf/${encodeURIComponent(gameId)}`,
+    {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }
+  );
 
   if (!res.ok) {
-    const error = await res.text()
-    console.error(error)
-    throw new Error("Erro ao atualizar jogo da shelf")
+    await throwResponseError(
+      res,
+      "Erro ao atualizar jogo da shelf"
+    );
   }
 
-  return res.json()
+  return readResponse(res);
 }
 
-// DELETE /shelf/:gameId (remover jogo)
 export async function deleteFromShelf(gameId) {
-  const res = await fetch(`${API}/shelf/${gameId}`, {
-    method: "DELETE",
-    credentials: "include"
-  })
+  const res = await fetch(
+    `${BACKEND_API}/shelf/${encodeURIComponent(gameId)}`,
+    {
+      method: "DELETE",
+      credentials: "include",
+    }
+  );
 
-  if (!res.ok) throw new Error("Erro ao remover jogo da shelf")
-  return res.json()
+  if (!res.ok) {
+    await throwResponseError(
+      res,
+      "Erro ao remover jogo da shelf"
+    );
+  }
+
+  return readResponse(res);
 }

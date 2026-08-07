@@ -1,60 +1,70 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import GameShelfCard from "@/components/GameShelfCard"
-
-const API = "http://localhost:5000"
+import {
+  deleteFromShelf,
+  getShelf,
+} from "@/services/shelfService"
 
 export default function ShelfPage() {
   const router = useRouter()
-  const [games, setGames] = useState([])
-  const [loading, setLoading] = useState(false)
 
-  async function fetchShelf() {
+  const [games, setGames] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  const fetchShelf = useCallback(async () => {
     try {
       setLoading(true)
 
-      const res = await fetch(`${API}/shelf`, {
-        method: "GET",
-        credentials: "include"
-      })
+      const data = await getShelf()
 
-      if (!res.ok) throw new Error()
-
-      const data = await res.json()
       console.log("Shelf data:", data)
-      setGames(Array.isArray(data) ? data : data.items || [])
+
+      setGames(
+        Array.isArray(data)
+          ? data
+          : data?.items ?? []
+      )
     } catch (err) {
-      alert("Erro ao carregar shelf")
+      console.error("Erro ao carregar shelf:", err)
+
+      alert(
+        err.message ||
+          "Erro ao carregar shelf"
+      )
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
 
   async function handleRemove(gameId) {
     try {
-      const res = await fetch(`${API}/shelf/${gameId}`, {
-        method: "DELETE",
-        credentials: "include"
-      })
+      await deleteFromShelf(gameId)
 
-      if (!res.ok) throw new Error()
+      // Remove da interface sem precisar consultar a API novamente.
+      setGames((currentGames) =>
+        currentGames.filter(
+          (item) => item.game.id !== gameId
+        )
+      )
+    } catch (err) {
+      console.error("Erro ao remover jogo:", err)
 
-      // remove da UI
-      setGames(prev => prev.filter(g => g.id !== gameId))
-    } catch {
-      alert("Erro ao remover jogo")
+      alert(
+        err.message ||
+          "Erro ao remover jogo"
+      )
     }
   }
 
   useEffect(() => {
     fetchShelf()
-  }, [])
+  }, [fetchShelf])
 
   return (
     <div className="p-8">
-
       {/* Header */}
       <div
         className="
@@ -66,9 +76,7 @@ export default function ShelfPage() {
           mb-8
         "
       >
-
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-
           <div>
             <h1
               className="
@@ -109,7 +117,6 @@ export default function ShelfPage() {
           >
             🎮 {games.length} jogos
           </div>
-
         </div>
       </div>
 
@@ -162,32 +169,41 @@ export default function ShelfPage() {
       )}
 
       {/* Grid */}
-      <div
-        className="
-          grid
-          grid-cols-1
-          sm:grid-cols-2
-          md:grid-cols-3
-          xl:grid-cols-4
-          gap-8
-          mt-8
-        "
-      >
-        {games.map((item) => (
-          <GameShelfCard
-            key={item.id}
-            game={{
-              id: item.game.id,
-              name: item.game.name,
-              coverUrl: item.game.coverUrl
-            }}
-            shelf={item}
-            onClick={() => router.push(`/shelf/${item.id}`)}
-            onRemove={() => handleRemove(item.id)}
-          />
-        ))}
-      </div>
+      {!loading && games.length > 0 && (
+        <div
+          className="
+            grid
+            grid-cols-1
+            sm:grid-cols-2
+            md:grid-cols-3
+            xl:grid-cols-4
+            gap-8
+            mt-8
+          "
+        >
+          {games.map((item) => {
+            const gameId = item.game.id
 
+            return (
+              <GameShelfCard
+                key={item.id}
+                game={{
+                  id: gameId,
+                  name: item.game.name,
+                  coverUrl: item.game.coverUrl,
+                }}
+                shelf={item}
+                onClick={() =>
+                  router.push(`/shelf/${gameId}`)
+                }
+                onRemove={() =>
+                  handleRemove(gameId)
+                }
+              />
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }
