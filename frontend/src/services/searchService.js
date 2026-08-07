@@ -1,30 +1,49 @@
-const API = process.env.NEXT_PUBLIC_API_URL
+import { BACKEND_API } from "@/config/api";
 
-// Função que procura todos os jogos com o nome informado
 export async function search({ gameName }) {
   const params = new URLSearchParams({
-    name: gameName
+    name: gameName,
   });
 
-  const res = await fetch(`${API}/games/search?${params.toString()}`, {
-    method: "GET",
-    credentials: "include"
-  });
+  const res = await fetch(
+    `${BACKEND_API}/games/search?${params.toString()}`,
+    {
+      method: "GET",
+      credentials: "include",
+    }
+  );
 
-  if (!res.ok) throw new Error("Erro na busca");
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => null);
+
+    throw new Error(
+      errorData?.mensagem ||
+        errorData?.message ||
+        "Erro na busca"
+    );
+  }
 
   return res.json();
 }
 
-// Procurar apenas 1 jogo
 export async function searchOneGame(gameId) {
-  console.log(`Jogo sendo enviado ao backend ${gameId} `)
-  const res = await fetch(`${API}/games/${gameId}`, {
-    method: "GET",
-    credentials: "include"
-  });
+  const res = await fetch(
+    `${BACKEND_API}/games/${encodeURIComponent(gameId)}`,
+    {
+      method: "GET",
+      credentials: "include",
+    }
+  );
 
-  if (!res.ok) throw new Error("Erro na busca");
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => null);
+
+    throw new Error(
+      errorData?.mensagem ||
+        errorData?.message ||
+        "Erro ao buscar o jogo"
+    );
+  }
 
   return res.json();
 }

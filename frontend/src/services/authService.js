@@ -1,38 +1,76 @@
-const API = process.env.NEXT_PUBLIC_API_URL
+import { BACKEND_API } from "@/config/api";
+
+async function readResponse(res) {
+  const contentType = res.headers.get("content-type");
+
+  if (contentType?.includes("application/json")) {
+    return res.json();
+  }
+
+  return null;
+}
 
 export async function login(data) {
-  // data = { identifier, password }
-  const res = await fetch(`${API}/auth`, {
+  const res = await fetch(`${BACKEND_API}/auth`, {
     method: "POST",
     credentials: "include",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify(data)
-  })
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  const responseData = await readResponse(res);
+
   if (!res.ok) {
-    const errorData = await res.json()
-    throw new Error(errorData.mensagem || "Erro no login")
+    throw new Error(
+      responseData?.mensagem ||
+        responseData?.message ||
+        "Erro no login"
+    );
   }
-  return res.json()
+
+  return responseData;
 }
 
 export async function register(data) {
-  // data = { email, username, password }
-  const res = await fetch(`${API}/auth/register`, {
+  const res = await fetch(`${BACKEND_API}/auth/register`, {
     method: "POST",
     credentials: "include",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify(data)
-  })
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  const responseData = await readResponse(res);
+
   if (!res.ok) {
-    const errorData = await res.json()
-    throw new Error(errorData.mensagem || "Erro no registro")
+    throw new Error(
+      responseData?.mensagem ||
+        responseData?.message ||
+        "Erro no registro"
+    );
   }
-  return res.json()
+
+  return responseData;
 }
 
 export async function logout() {
-  await fetch(`${API}/auth/logout`, {
+  const res = await fetch(`${BACKEND_API}/auth/logout`, {
     method: "POST",
-    credentials: "include"
+    credentials: "include",
   });
+
+  const responseData = await readResponse(res);
+
+  if (!res.ok) {
+    throw new Error(
+      responseData?.mensagem ||
+        responseData?.message ||
+        "Erro ao realizar logout"
+    );
+  }
+
+  return responseData;
 }
