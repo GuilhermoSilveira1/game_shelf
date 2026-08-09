@@ -1,10 +1,21 @@
 import Link from "next/link";
 import "../globals.css";
+import BackendInitializer from "@/components/BackendInitializer"
 
 export const metadata = {
   title: "Game Shelf",
   description: "Organize seus jogos",
 };
+
+export default function WithLayout({
+  children,
+}) {
+  return (
+    <BackendInitializer>
+      {children}
+    </BackendInitializer>
+  )
+}
 
 export default function RootLayout({ children }) {
   return (

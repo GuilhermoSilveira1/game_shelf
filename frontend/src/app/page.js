@@ -2,10 +2,24 @@
 
 import { useRouter } from "next/navigation"
 import "./globals.css";
+import { useEffect } from "react"
+import { BACKEND_API } from "@/config/api"
 
 export default function HomePage() {
 
   const router = useRouter()
+
+  useEffect(() => {
+    fetch(`${BACKEND_API}/health`, {
+      method: "GET",
+      cache: "no-store",
+    }).catch((error) => {
+      console.error(
+        "Backend inicializando:",
+        error
+      )
+    })
+  }, [])
 
   return (
     <html>
