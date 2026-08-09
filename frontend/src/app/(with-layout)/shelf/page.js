@@ -64,7 +64,13 @@ export default function ShelfPage() {
   }, [fetchShelf])
 
   return (
-    <div className="p-8">
+    <div className="
+      min-w-0
+      w-full
+      p-4
+      sm:p-6
+      lg:p-8
+      ">
       {/* Header */}
       <div
         className="
@@ -80,7 +86,10 @@ export default function ShelfPage() {
           <div>
             <h1
               className="
-                text-5xl
+                break-words
+                text-3xl
+                sm:text-4xl
+                lg:text-5xl
                 font-black
                 uppercase
                 text-white
@@ -171,13 +180,15 @@ export default function ShelfPage() {
       {/* Grid */}
       {!loading && games.length > 0 && (
         <div
-          className="
+        className="
+            min-w-0
             grid
             grid-cols-1
             sm:grid-cols-2
-            md:grid-cols-3
-            xl:grid-cols-4
-            gap-8
+            xl:grid-cols-3
+            2xl:grid-cols-4
+            gap-6
+            lg:gap-8
             mt-8
           "
         >

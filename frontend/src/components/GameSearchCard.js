@@ -1,3 +1,5 @@
+"use client"
+
 import { useRouter } from "next/navigation"
 
 export default function GameSearchCard({ game }) {
@@ -7,37 +9,167 @@ export default function GameSearchCard({ game }) {
     router.push(`/search/${game.id}`)
   }
 
+  const coverUrl = game.coverUrl
+
   return (
-    <div
+    <article
       onClick={handleClick}
-      className="cursor-pointer border-2 border-black bg-[#e5e5e5] hover:bg-[#d4d4d4] transition-all shadow-[4px_4px_0px_black]"
+      onKeyDown={(event) => {
+        if (
+          event.key === "Enter" ||
+          event.key === " "
+        ) {
+          handleClick()
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      className="
+        cursor-pointer
+        h-full
+        min-w-0
+        bg-[#ff77d9]
+        border-4
+        border-[#3b2a1f]
+        shadow-[6px_6px_0px_#3b2a1f]
+        sm:shadow-[8px_8px_0px_#3b2a1f]
+        transition-all
+        duration-150
+        hover:translate-x-[4px]
+        hover:translate-y-[4px]
+        hover:shadow-[3px_3px_0px_#3b2a1f]
+        overflow-hidden
+      "
     >
       {/* Header retrô */}
-      <div className="bg-[#000080] text-white text-xs px-2 py-1 font-bold flex justify-between items-center">
-        <span>Game Search</span>
-        <span>🗖 🗙</span>
+      <div
+        className="
+          bg-[#f4ef45]
+          border-b-4
+          border-[#3b2a1f]
+          px-3
+          py-2
+          flex
+          items-center
+          justify-between
+          gap-3
+        "
+      >
+        <span
+          className="
+            truncate
+            font-black
+            uppercase
+            text-xs
+            text-[#3b2a1f]
+          "
+        >
+          Game Search
+        </span>
+
+        <div className="flex gap-2 shrink-0">
+          <div className="w-4 h-4 bg-[#58d0e0] border-2 border-[#3b2a1f]" />
+          <div className="w-4 h-4 bg-[#ff6464] border-2 border-[#3b2a1f]" />
+          <div className="w-4 h-4 bg-[#5a54f2] border-2 border-[#3b2a1f]" />
+        </div>
       </div>
 
       {/* Conteúdo */}
-      <div className="p-3 flex gap-3">
-        {/* Capa */}
-        <img
-          src={game.cover}
-          alt={game.name}
-          className="w-16 h-20 object-cover border border-black"
-        />
+      <div className="p-3 sm:p-4">
+        <div
+          className="
+            relative
+            w-full
+            aspect-[3/4]
+            bg-[#c8c5dd]
+            border-4
+            border-[#3b2a1f]
+            overflow-hidden
+          "
+        >
+          {coverUrl ? (
+            {coverUrl}
+          ) : (
+            <div
+              className="
+                w-full
+                h-full
+                flex
+                flex-col
+                items-center
+                justify-center
+                gap-3
+                p-4
+                text-center
+                bg-[#58d0e0]
+                text-[#3b2a1f]
+              "
+            >
+              <span className="text-4xl">🎮</span>
 
-        <div className="flex flex-col justify-between">
-          {/* Nome */}
-          <h3 className="font-bold text-sm">{game.name}</h3>
-
-          {/* Placeholder pra infos futuras */}
-          <div className="text-xs text-gray-700">
-            {game.releaseDate && <p>📅 {game.releaseDate}</p>}
-            {game.genre && <p>🎮 {game.genre}</p>}
-          </div>
+              <span className="font-black uppercase text-sm">
+                Capa indisponível
+              </span>
+            </div>
+          )}
         </div>
+
+        <h2
+          className="
+            mt-4
+            min-w-0
+            break-words
+            text-lg
+            font-black
+            text-[#3b2a1f]
+            leading-tight
+          "
+        >
+          {game.name}
+        </h2>
+
+        {(game.releaseDate || game.genre) && (
+          <div
+            className="
+              mt-3
+              flex
+              flex-wrap
+              gap-2
+              text-xs
+              font-bold
+              text-[#3b2a1f]
+            "
+          >
+            {game.releaseDate && (
+              <span
+                className="
+                  bg-white
+                  border-2
+                  border-[#3b2a1f]
+                  px-2
+                  py-1
+                "
+              >
+                📅 {game.releaseDate}
+              </span>
+            )}
+
+            {game.genre && (
+              <span
+                className="
+                  bg-[#58d0e0]
+                  border-2
+                  border-[#3b2a1f]
+                  px-2
+                  py-1
+                "
+              >
+                🎮 {game.genre}
+              </span>
+            )}
+          </div>
+        )}
       </div>
-    </div>
+    </article>
   )
 }

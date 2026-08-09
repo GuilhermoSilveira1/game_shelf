@@ -1,229 +1,299 @@
-import Link from "next/link";
-import "../globals.css";
+"use client"
+
+import { useState } from "react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+
 import BackendInitializer from "@/components/BackendInitializer"
+import "../globals.css"
 
-export const metadata = {
-  title: "Game Shelf",
-  description: "Organize seus jogos",
-};
+export default function WithLayout({ children }) {
+  const pathname = usePathname()
 
-export default function WithLayout({
-  children,
-}) {
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+
+  function closeMobileSidebar() {
+    setSidebarOpen(false)
+  }
+
+  const navigationItems = [
+    {
+      href: "/search",
+      icon: "🔎",
+      label: "Pesquisar",
+      color: "bg-[#58d0e0]",
+    },
+    {
+      href: "/shelf",
+      icon: "📚",
+      label: "Prateleira",
+      color: "bg-white",
+    },
+  ]
+
   return (
     <BackendInitializer>
-      {children}
-    </BackendInitializer>
-  )
-}
+      <div className="min-h-screen bg-[#c8c5dd]">
+        {/* Barra mobile */}
+        <header
+          className="
+            fixed
+            top-0
+            left-0
+            right-0
+            z-40
+            flex
+            h-16
+            items-center
+            justify-between
+            bg-[#5a54f2]
+            border-b-4
+            border-[#3b2a1f]
+            px-4
+            lg:hidden
+          "
+        >
+          /shelf
+            Game Shelf
+          </Link>
 
-export default function RootLayout({ children }) {
-  return (
-    <html lang="pt-BR">
-      <body className="bg-[#c8c5dd] min-h-screen overflow-hidden">
-
-        <div className="relative flex h-screen">
-
-          {/* Decorações de fundo */}
-          <div
+          <button
+            type="button"
+            aria-label={
+              sidebarOpen
+                ? "Fechar menu"
+                : "Abrir menu"
+            }
+            aria-expanded={sidebarOpen}
+            onClick={() =>
+              setSidebarOpen((current) => !current)
+            }
             className="
-              absolute
-              bottom-10
-              left-10
-              w-40
-              h-40
               bg-[#f4ef45]
               border-4
               border-[#3b2a1f]
-              -rotate-12
+              px-3
+              py-2
+              text-xl
+              font-black
+              text-[#3b2a1f]
+              shadow-[3px_3px_0px_#3b2a1f]
+              active:translate-x-1
+              active:translate-y-1
+              active:shadow-none
+            "
+          >
+            {sidebarOpen ? "✕" : "☰"}
+          </button>
+        </header>
+
+        {/* Fundo do menu mobile */}
+        {sidebarOpen && (
+          <button
+            type="button"
+            aria-label="Fechar menu"
+            onClick={closeMobileSidebar}
+            className="
+              fixed
+              inset-0
+              z-40
+              bg-black/50
+              lg:hidden
             "
           />
+        )}
 
+        <div className="flex min-h-screen">
           {/* Sidebar */}
           <aside
-            className="
-              relative
-              z-10
-              w-72
+            className={`
+              fixed
+              inset-y-0
+              left-0
+              z-50
+              flex
+              flex-col
+              gap-4
               bg-[#5a54f2]
               border-r-4
               border-[#3b2a1f]
-              flex
-              flex-col
-              p-4
-              gap-4
-            "
-          >
+              p-3
+              transition-all
+              duration-200
 
+              ${
+                sidebarOpen
+                  ? "translate-x-0"
+                  : "-translate-x-full"
+              }
+
+              lg:translate-x-0
+
+              ${
+                sidebarCollapsed
+                  ? "lg:w-20"
+                  : "w-64 lg:w-56"
+              }
+            `}
+          >
             {/* Logo */}
             <div
-              className="
+              className={`
                 bg-[#f4ef45]
                 border-4
                 border-[#3b2a1f]
-                p-4
                 text-center
-              "
+                text-[#3b2a1f]
+                overflow-hidden
+
+                ${
+                  sidebarCollapsed
+                    ? "p-2"
+                    : "p-3"
+                }
+              `}
             >
               <h1
-                className="
-                  text-3xl
+                className={`
                   font-black
                   uppercase
-                  text-[#3b2a1f]
                   leading-none
-                "
+
+                  ${
+                    sidebarCollapsed
+                      ? "text-xl"
+                      : "text-2xl"
+                  }
+                `}
               >
-                GAME
-                <br />
-                SHELF
+                {sidebarCollapsed ? (
+                  "GS"
+                ) : (
+                  <>
+                    GAME
+                    <br />
+                    SHELF
+                  </>
+                )}
               </h1>
 
-              <p
-                className="
-                  mt-2
-                  text-xs
-                  font-bold
-                  uppercase
-                  text-[#3b2a1f]
-                "
-              >
-                Sua coleção gamer
-              </p>
+              {!sidebarCollapsed && (
+                <p className="mt-2 text-xs font-bold uppercase">
+                  Sua coleção gamer
+                </p>
+              )}
             </div>
 
+            {/* Recolher no desktop */}
+            <button
+              type="button"
+              onClick={() =>
+                setSidebarCollapsed(
+                  (current) => !current
+                )
+              }
+              className="
+                hidden
+                lg:block
+                w-full
+                bg-[#f4ef45]
+                border-4
+                border-[#3b2a1f]
+                p-2
+                font-black
+                text-[#3b2a1f]
+                shadow-[3px_3px_0px_#3b2a1f]
+                hover:translate-x-[2px]
+                hover:translate-y-[2px]
+                hover:shadow-[1px_1px_0px_#3b2a1f]
+                transition-all
+              "
+              title={
+                sidebarCollapsed
+                  ? "Expandir menu"
+                  : "Recolher menu"
+              }
+            >
+              {sidebarCollapsed ? "▶" : "◀ Recolher"}
+            </button>
+
             {/* Navegação */}
-            <nav className="flex flex-col gap-4">
+            <nav className="flex flex-col gap-3">
+              {navigationItems.map((item) => {
+                const isActive =
+                  pathname === item.href ||
+                  pathname.startsWith(
+                    `${item.href}/`
+                  )
 
-              <Link href="/search">
-                <button
+                return (
+                  {item.href}
+                    <span className="text-xl">
+                      {item.icon}
+                    </span>
+
+                    {!sidebarCollapsed && (
+                      <span>{item.label}</span>
+                    )}
+                  </Link>
+                )
+              })}
+            </nav>
+
+            {/* Rodapé */}
+            <div className="mt-auto flex flex-col gap-3">
+              {!sidebarCollapsed && (
+                <div
                   className="
-                    w-full
-
                     bg-[#58d0e0]
                     border-4
                     border-[#3b2a1f]
-
-                    p-3
-
-                    font-black
-                    uppercase
-                    text-[#3b2a1f]
-
-                    shadow-[4px_4px_0px_#3b2a1f]
-
-                    hover:translate-x-[2px]
-                    hover:translate-y-[2px]
-                    hover:shadow-[2px_2px_0px_#3b2a1f]
-
-                    transition-all
+                    p-2
+                    text-center
                   "
                 >
-                  🔎 Pesquisar
-                </button>
+                  <p className="text-[#3b2a1f] font-black uppercase text-xs">
+                    Level Up! 🚀
+                  </p>
+                </div>
+              )}
+
+              /logout
+                <span className="text-xl">🚪</span>
+
+                {!sidebarCollapsed && (
+                  <span>Logout</span>
+                )}
               </Link>
-
-              <Link href="/shelf">
-                <button
-                  className="
-                    w-full
-
-                    bg-white
-                    border-4
-                    border-[#3b2a1f]
-
-                    p-3
-
-                    font-black
-                    uppercase
-                    text-[#3b2a1f]
-
-                    shadow-[4px_4px_0px_#3b2a1f]
-
-                    hover:translate-x-[2px]
-                    hover:translate-y-[2px]
-                    hover:shadow-[2px_2px_0px_#3b2a1f]
-
-                    transition-all
-                  "
-                >
-                  📚 Prateleira
-                </button>
-              </Link>
-
-            </nav>
-
-            {/* Footer */}
-            <div className="mt-auto">
-
-              <div
-                className="
-                  bg-[#58d0e0]
-                  border-4
-                  border-[#3b2a1f]
-                  p-3
-                  text-center
-                  mb-4
-                "
-              >
-                <p
-                  className="
-                    text-[#3b2a1f]
-                    font-black
-                    uppercase
-                    text-sm
-                  "
-                >
-                  Level Up! 🚀
-                </p>
-              </div>
-
-              <button
-                className="
-                  w-full
-
-                  bg-[#ff6464]
-                  border-4
-                  border-[#3b2a1f]
-
-                  p-3
-
-                  font-black
-                  uppercase
-                  text-white
-
-                  shadow-[4px_4px_0px_#3b2a1f]
-
-                  hover:translate-x-[2px]
-                  hover:translate-y-[2px]
-                  hover:shadow-[2px_2px_0px_#3b2a1f]
-
-                  transition-all
-                "
-              >
-                🚪 Logout
-              </button>
-
             </div>
-
           </aside>
 
-          {/* Conteúdo principal */}
+          {/* Conteúdo */}
           <main
-            className="
+            className={`
               relative
               z-10
-              flex-1
-              overflow-y-auto
-              p-8
-            "
+              min-w-0
+              w-full
+              pt-16
+              transition-[margin]
+              duration-200
+              lg:pt-0
+
+              ${
+                sidebarCollapsed
+                  ? "lg:ml-20"
+                  : "lg:ml-56"
+              }
+            `}
           >
-            {children}
+            <div className="min-w-0 w-full">
+              {children}
+            </div>
           </main>
-
         </div>
-
-      </body>
-    </html>
-  );
+      </div>
+    </BackendInitializer>
+  )
 }
