@@ -93,7 +93,10 @@ export default function GameShelfCard({
           "
         >
           {game.coverUrl ? (
-            {game.coverUrl}
+            <img
+              src={game.coverUrl}
+              alt={`Capa de ${game.name}`}
+            />
           ) : (
             <div
               className="

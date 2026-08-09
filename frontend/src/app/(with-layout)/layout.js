@@ -33,6 +33,7 @@ export default function WithLayout({ children }) {
   ]
 
   return (
+    <>
     <BackendInitializer>
       <div className="min-h-screen bg-[#c8c5dd]">
         {/* Barra mobile */}
@@ -54,8 +55,8 @@ export default function WithLayout({ children }) {
             lg:hidden
           "
         >
-          /shelf
-            Game Shelf
+          <Link>
+            /shelf
           </Link>
 
           <button
@@ -228,6 +229,7 @@ export default function WithLayout({ children }) {
                   )
 
                 return (
+                  <Link>
                   {item.href}
                     <span className="text-xl">
                       {item.icon}
@@ -259,6 +261,7 @@ export default function WithLayout({ children }) {
                 </div>
               )}
 
+              <Link>
               /logout
                 <span className="text-xl">🚪</span>
 
@@ -295,5 +298,6 @@ export default function WithLayout({ children }) {
         </div>
       </div>
     </BackendInitializer>
+    </>
   )
 }
