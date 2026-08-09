@@ -244,7 +244,10 @@ export default function ShelfDetailsPage() {
                 "
               >
                 {game.coverUrl ? (
-                  {game.coverUrl}
+                  <Image
+                    src={game.coverUrl}
+                    alt={`Capa de ${game.name}`}
+                  />
                 ) : (
                   <div
                     className="
