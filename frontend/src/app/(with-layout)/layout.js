@@ -4,7 +4,6 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
-import BackendInitializer from "@/components/BackendInitializer"
 import "../globals.css"
 
 export default function WithLayout({ children }) {
@@ -36,7 +35,6 @@ export default function WithLayout({ children }) {
     <>
     <html>
       <body>
-        <BackendInitializer>
           <div className="min-h-screen bg-[#c8c5dd]">
             {/* Barra mobile */}
             <header
@@ -280,7 +278,6 @@ export default function WithLayout({ children }) {
               </main>
             </div>
           </div>
-        </BackendInitializer>
       </body>
     </html>
     </>

@@ -13,8 +13,10 @@ export default function BackendInitializer({
     retry,
   } = useBackendHealth()
 
+  console.log("Backend status:", status)
+
   if (status === "ready") {
-    return children
+    return <> {children} </>
   }
 
   if (status === "error") {

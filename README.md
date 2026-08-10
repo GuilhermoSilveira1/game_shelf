@@ -1,16 +1,16 @@
 ## 🎮 Game Shelf
 
-O Game Shelf surgiu de uma necessidade pessoal: encontrar uma plataforma simples e completa para registrar os jogos que já joguei. Assim como o Skoob faz muito bem com livros — permitindo marcar leituras em andamento, futuras e finalizadas, além de adicionar notas e datas — eu buscava algo semelhante para o mundo dos videogames.
+O Game Shelf surgiu de um desejo pessoal: encontrar uma plataforma simples e completa para registrar os jogos que já joguei. Assim como o Skoob faz muito bem com livros — permitindo marcar leituras em andamento, futuras e finalizadas, além de adicionar notas e datas — eu buscava algo semelhante para o mundo dos videogames.
 
 ## O Problema
 As ferramentas existentes hoje geralmente são limitadas a um único ecossistema.
 Por exemplo:
 
 - Aplicativos que se conectam apenas à conta PlayStation, exibindo apenas jogos jogados no console.
-- Plataformas que sincronizam somente com Steam, mas ignoram jogos de consoles.
-- Soluções que não permitem centralizar jogos de diferentes plataformas em um único lugar.
+- Plataformas que sincronizam somente com Steam, mas não com consoles.
+- Aplicativos que não permitem centralizar jogos de diferentes plataformas em um único lugar.
 
-Isso deixa jogadores que possuem mais de um console ou que alternam entre PC e consoles sem uma visão real da sua biblioteca completa.
+Isso deixa jogadores que possuem mais de um console ou que alternam entre PC e consoles sem uma visão real da sua biblioteca completa, ou quem apenas quer marcar os jogos que quer jogar, ou quais já jogou e onde.
 
 ## 💡 A Solução
 O Game Shelf foi criado para resolver exatamente isso:
@@ -30,3 +30,5 @@ Informações detalhadas sobre o funcionamento da API, autenticação, estrutura
 
 - Backend → README.md
 - Frontend → README.md
+
+O link do site é: https://gameshelf-one.vercel.app/

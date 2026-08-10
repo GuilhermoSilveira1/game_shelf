@@ -8,8 +8,10 @@ export async function checkBackendHealth({ signal } = {}) {
   })
 
   if (!response.ok) {
-    throw new Error("O backend ainda não está disponível.")
+    throw new Error(
+      `Backend indisponível. Status: ${response.status}`
+    )
   }
 
-  return response.json()
+  return true
 }

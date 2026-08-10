@@ -4,22 +4,28 @@ import { useRouter } from "next/navigation"
 import "./globals.css";
 import { useEffect } from "react"
 import { BACKEND_API } from "@/config/api"
+import { checkBackendHealth } from "@/services/healthService"
 
 export default function HomePage() {
 
   const router = useRouter()
 
   useEffect(() => {
-    fetch(`${BACKEND_API}/health`, {
-      method: "GET",
-      cache: "no-store",
-    }).catch((error) => {
-      console.error(
-        "Backend inicializando:",
-        error
-      )
-    })
-  }, [])
+      const controller = new AbortController()
+      checkBackendHealth({
+        signal: controller.signal,
+        }).catch((error) => {
+        if (error.name !== "AbortError") {
+          console.log(
+          "Backend sendo inicializado:",
+          error.message
+          )
+        }
+      })
+      return () => {
+        controller.abort()
+      }
+    }, [])
 
   return (
     <html>

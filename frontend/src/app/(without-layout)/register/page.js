@@ -1,8 +1,8 @@
 "use client"
+
 import FormAuth from "@/components/FormAuth"
 import { register } from "@/services/authService"
 import { useRouter } from "next/navigation"
-import "../../globals.css";
 
 export default function RegisterPage() {
 
@@ -11,23 +11,28 @@ export default function RegisterPage() {
   async function handleRegister(data) {
 
     try {
-
       const response = await register(data)
-
       alert(`Usuário ${response.username} criado com sucesso!`)
-
       router.push("/login")
-
     } catch {
-
       alert("Falha ao criar usuário")
-
     }
   }
 
   return (
-   <html>
-      <body>
+      <main
+      
+      className="
+        relative
+        min-h-screen
+        bg-[#c8c5dd]
+        flex
+        items-center
+        justify-center
+        p-4
+        sm:p-6
+        overflow-hidden"
+      >
         <div
           className="
             min-h-screen
@@ -151,7 +156,6 @@ export default function RegisterPage() {
             </div>
           </div>
         </div>
-      </body>
-    </html> 
+      </main>
   )
 }
