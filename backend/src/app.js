@@ -27,6 +27,14 @@ app.use(
 app.use(cookieParser())
 app.use(express.json())
 
+app.get("/health", (req, res) => {
+  return res.status(200).json({
+    status: "ok",
+    service: "game-shelf-api",
+    timestamp: new Date().toISOString(),
+  })
+})
+
 app.use("/games", searchRouter)
 app.use("/auth", authRouter)
 app.use("/shelf", shelfRouter)
