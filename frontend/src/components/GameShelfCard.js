@@ -37,11 +37,10 @@ export default function GameShelfCard({
     normalizedGame?.name ?? "Jogo sem nome"
 
   function handleClick() {
-    if (!normalizedGame?.id) {
-      return
-    }
+    console.log("Shelf ID:", shelf?.id)
+    console.log("Game ID:", normalizedGame?.id)
 
-    router.push(`/shelf/${normalizedGame.id}`)
+    router.push(`/shelf/${shelf.id}`)
   }
 
   return (

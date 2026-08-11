@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
+import Image from "next/image"
 
 import {
   deleteFromShelf,
@@ -247,6 +248,8 @@ export default function ShelfDetailsPage() {
                   <Image
                     src={game.coverUrl}
                     alt={`Capa de ${game.name}`}
+                    width={300}
+                    height={400}
                   />
                 ) : (
                   <div
@@ -317,7 +320,7 @@ export default function ShelfDetailsPage() {
                 <button
                   type="button"
                   onClick={() =>
-                    handleRemove(game.id)
+                    handleRemove(selectedGame.id)
                   }
                   className="
                     w-full
