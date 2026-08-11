@@ -320,7 +320,7 @@ export default function ShelfDetailsPage() {
                 <button
                   type="button"
                   onClick={() =>
-                    handleRemove(selectedGame.id)
+                    handleRemove(game.id)
                   }
                   className="
                     w-full

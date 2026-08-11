@@ -40,7 +40,7 @@ export default function GameShelfCard({
     console.log("Shelf ID:", shelf?.id)
     console.log("Game ID:", normalizedGame?.id)
 
-    router.push(`/shelf/${shelf.id}`)
+    router.push(`/shelf/${normalizedGame.id}`)
   }
 
   return (
