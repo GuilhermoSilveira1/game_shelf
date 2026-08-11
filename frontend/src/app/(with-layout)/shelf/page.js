@@ -197,19 +197,9 @@ export default function ShelfPage() {
 
             return (
               <GameShelfCard
-                key={item.id}
-                game={{
-                  id: gameId,
-                  name: item.game.name,
-                  coverUrl: item.game.coverUrl,
-                }}
+                key={item.id ?? gameId}
+                game={item.game}
                 shelf={item}
-                onClick={() =>
-                  router.push(`/shelf/${gameId}`)
-                }
-                onRemove={() =>
-                  handleRemove(gameId)
-                }
               />
             )
           })}

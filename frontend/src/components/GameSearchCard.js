@@ -5,11 +5,16 @@ import { useRouter } from "next/navigation"
 export default function GameSearchCard({ game }) {
   const router = useRouter()
 
+  const coverUrl = game?.coverUrl ?? null
+  const gameName = game?.name ?? "Jogo sem nome"
+
   function handleClick() {
+    if (!game?.id) {
+      return
+    }
+
     router.push(`/search/${game.id}`)
   }
-
-  const coverUrl = game.coverUrl
 
   return (
     <article
@@ -88,7 +93,16 @@ export default function GameSearchCard({ game }) {
           "
         >
           {coverUrl ? (
-            {coverUrl}
+            <img
+              src={coverUrl}
+              alt={`Capa de ${gameName}`}
+              className="
+                w-full
+                h-full
+                object-cover
+                block
+              "
+            />
           ) : (
             <div
               className="
@@ -105,7 +119,9 @@ export default function GameSearchCard({ game }) {
                 text-[#3b2a1f]
               "
             >
-              <span className="text-4xl">🎮</span>
+              <span className="text-4xl">
+                🎮
+              </span>
 
               <span className="font-black uppercase text-sm">
                 Capa indisponível
@@ -119,16 +135,17 @@ export default function GameSearchCard({ game }) {
             mt-4
             min-w-0
             break-words
+            [overflow-wrap:anywhere]
             text-lg
             font-black
             text-[#3b2a1f]
             leading-tight
           "
         >
-          {game.name}
+          {gameName}
         </h2>
 
-        {(game.releaseDate || game.genre) && (
+        {(game?.releaseDate || game?.genre) && (
           <div
             className="
               mt-3

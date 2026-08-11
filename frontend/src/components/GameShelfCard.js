@@ -15,6 +15,8 @@ export default function GameShelfCard({
 }) {
   const router = useRouter()
 
+  const normalizedGame = shelf?.game ?? game
+
   const statusLabel = shelf?.status
     ? STATUS_LABELS[shelf.status] ||
       shelf.status
@@ -28,8 +30,18 @@ export default function GameShelfCard({
   const platform =
     shelf?.plataform ?? shelf?.platform
 
+  const coverUrl =
+    normalizedGame?.coverUrl ?? null
+
+  const gameName =
+    normalizedGame?.name ?? "Jogo sem nome"
+
   function handleClick() {
-    router.push(`/shelf/${game.id}`)
+    if (!normalizedGame?.id) {
+      return
+    }
+
+    router.push(`/shelf/${normalizedGame.id}`)
   }
 
   return (
@@ -92,10 +104,16 @@ export default function GameShelfCard({
             overflow-hidden
           "
         >
-          {game.coverUrl ? (
+          {coverUrl ? (
             <img
-              src={game.coverUrl}
-              alt={`Capa de ${game.name}`}
+              src={coverUrl}
+              alt={`Capa de ${gameName}`}
+              className="
+                w-full
+                h-full
+                object-cover
+                block
+              "
             />
           ) : (
             <div
@@ -104,8 +122,8 @@ export default function GameShelfCard({
                 h-full
                 flex
                 flex-col
-                justify-center
                 items-center
+                justify-center
                 gap-3
                 p-4
                 text-center
@@ -113,7 +131,9 @@ export default function GameShelfCard({
                 text-[#3b2a1f]
               "
             >
-              <span className="text-4xl">🎮</span>
+              <span className="text-4xl">
+                🎮
+              </span>
 
               <span className="font-black uppercase text-sm">
                 Capa indisponível
@@ -176,7 +196,7 @@ export default function GameShelfCard({
             leading-tight
           "
         >
-          {game.name}
+          {gameName}
         </h2>
 
         <div className="flex flex-wrap gap-2 mt-3">
@@ -199,8 +219,7 @@ export default function GameShelfCard({
             </span>
           )}
 
-          {typeof shelf?.time_played ===
-            "number" && (
+          {typeof shelf?.time_played === "number" && (
             <span
               className="
                 bg-[#ff6464]
