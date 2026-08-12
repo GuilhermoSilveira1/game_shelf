@@ -92,8 +92,8 @@ export default function SearchDetailsPage() {
                     <Image
                       src={selectedGame.coverUrl}
                       alt={selectedGame.name}
-                      fill
-                      className="object-cover"
+                      width={300}
+                      height={400}
                     />
                   </div>
 
