@@ -108,8 +108,8 @@ export default function GameShelfCard({
             <Image
               src={coverUrl}
               alt={`Capa de ${gameName}`}
-              width={300}
-              height={400}
+              fill
+              className="object-cover"
             />
           ) : (
             <div
