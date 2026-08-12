@@ -1,6 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation"
+import Image from "next/image"
 
 export default function GameSearchCard({ game }) {
   const router = useRouter()
@@ -93,15 +94,11 @@ export default function GameSearchCard({ game }) {
           "
         >
           {coverUrl ? (
-            <img
+            <Image
               src={coverUrl}
               alt={`Capa de ${gameName}`}
-              className="
-                w-full
-                h-full
-                object-cover
-                block
-              "
+              width={300}
+              height={400}
             />
           ) : (
             <div

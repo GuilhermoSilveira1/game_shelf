@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
 import { searchOneGame } from "@/services/searchService"
 import ShelfCreateForm from "@/components/ShelfCreateForm"
+import Image from "next/image"
 import "../../../globals.css"
 
 export default function SearchDetailsPage() {
@@ -88,14 +89,11 @@ export default function SearchDetailsPage() {
                       p-3
                     "
                   >
-                    <img
+                    <Image
                       src={selectedGame.coverUrl}
                       alt={selectedGame.name}
-                      className="
-                        w-full
-                        border-4
-                        border-[#3b2a1f]
-                      "
+                      width={300}
+                      height={400}
                     />
                   </div>
 

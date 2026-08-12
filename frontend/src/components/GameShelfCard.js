@@ -1,6 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation"
+import Image from "next/image"
 
 const STATUS_LABELS = {
   WANT_TO_PLAY: "Quero jogar",
@@ -15,7 +16,7 @@ export default function GameShelfCard({
 }) {
   const router = useRouter()
 
-  const normalizedGame = shelf?.game ?? game
+  const normalizedGame = game?.game ?? game
 
   const statusLabel = shelf?.status
     ? STATUS_LABELS[shelf.status] ||
@@ -104,15 +105,11 @@ export default function GameShelfCard({
           "
         >
           {coverUrl ? (
-            <img
+            <Image
               src={coverUrl}
               alt={`Capa de ${gameName}`}
-              className="
-                w-full
-                h-full
-                object-cover
-                block
-              "
+              width={300}
+              height={400}
             />
           ) : (
             <div

@@ -3,13 +3,9 @@
 import { useCallback, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import GameShelfCard from "@/components/GameShelfCard"
-import {
-  deleteFromShelf,
-  getShelf,
-} from "@/services/shelfService"
+import { getShelf } from "@/services/shelfService"
 
 export default function ShelfPage() {
-  const router = useRouter()
 
   const [games, setGames] = useState([])
   const [loading, setLoading] = useState(true)
@@ -38,26 +34,6 @@ export default function ShelfPage() {
       setLoading(false)
     }
   }, [])
-
-  async function handleRemove(gameId) {
-    try {
-      await deleteFromShelf(gameId)
-
-      // Remove da interface sem precisar consultar a API novamente.
-      setGames((currentGames) =>
-        currentGames.filter(
-          (item) => item.game.id !== gameId
-        )
-      )
-    } catch (err) {
-      console.error("Erro ao remover jogo:", err)
-
-      alert(
-        err.message ||
-          "Erro ao remover jogo"
-      )
-    }
-  }
 
   useEffect(() => {
     fetchShelf()
@@ -198,7 +174,7 @@ export default function ShelfPage() {
             return (
               <GameShelfCard
                 key={item.id ?? gameId}
-                game={item.game}
+                game={item}
                 shelf={item}
               />
             )
