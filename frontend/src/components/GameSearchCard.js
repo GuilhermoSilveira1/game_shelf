@@ -97,8 +97,8 @@ export default function GameSearchCard({ game }) {
             <Image
               src={coverUrl}
               alt={`Capa de ${gameName}`}
-              fill
-              className="object-cover"
+              width={300}
+              height={400}
             />
           ) : (
             <div
